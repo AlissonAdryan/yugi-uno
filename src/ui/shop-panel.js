@@ -12,6 +12,7 @@ const SLOTS = SHOP.SLOTS;
 const CARD_CSS_WIDTH = 115;
 // Borda transparente (px CSS) em volta da prévia: bate com o margin -3px de .shop-card no CSS
 const PREVIEW_PAD_CSS = 3;
+const PREVIEW_MIN_FRAME_MS = CONFIG.VIEW.SHOP_PREVIEW_MIN_FRAME_MS;
 const CARD_UNITS = CONFIG.CARD_DIMENSIONS;
 const MOTE_COUNT = 16;
 // Raios dourados do fundo (bate com .shop-rays no CSS): leque de RAY_COUNT fatias de RAY_ARC_DEG a cada
@@ -153,6 +154,7 @@ export class ShopPanel {
         this.previewDrawn = new Uint8Array(SLOTS);
         this.cardDensity = 1;
         this.previewPad = 0;
+        this.previewAcc = 0;
 
         this.particles = new ParticleSystem(800);
         this.loopId = 0;
@@ -921,8 +923,13 @@ export class ShopPanel {
         }
 
         // Prévias ao vivo: o laminado/efeitos animados continuam rodando; faces estáticas são pintadas uma vez
+        // Prévias animadas a no máximo ~60 fps (PREVIEW_MIN_FRAME_MS); estáticas ainda não pintadas saem na hora
+        this.previewAcc += dt * 1000;
+        const animate = this.previewAcc >= PREVIEW_MIN_FRAME_MS;
+        if (animate) this.previewAcc = 0;
+
         // Laminados das prévias animadas pintados num atlas antes do 1º carimbo (uma foto por frame, não por carta)
-        if (this.foils) {
+        if (animate && this.foils) {
             this.foils.begin();
             for (let slot = 0; slot < SLOTS; slot++) {
                 const item = this.items[slot];
@@ -930,7 +937,7 @@ export class ShopPanel {
             }
         }
         for (let slot = 0; slot < SLOTS; slot++) {
-            if (!this.previewDrawn[slot] || this.isAnimatedPreview(slot)) this.drawCard(slot);
+            if (this.isAnimatedPreview(slot) ? animate : !this.previewDrawn[slot]) this.drawCard(slot);
         }
 
         this.loopId = requestAnimationFrame(this._frame);

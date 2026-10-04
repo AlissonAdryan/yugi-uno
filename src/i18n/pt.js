@@ -158,7 +158,7 @@ export const PT_BR = {
     "FUSION_ALERT": "FUSÃO!",
     "CURSE_ALERT": "MALDIÇÃO!",
     "CARD_DEATH": "A Morte",
-    "DESC_DEATH": "Lendária (1x por partida): marca o oponente com as Chamas da Morte. Por 3 turnos, os números dele perdem 1 e toda carta dele que lutar queima. No fim, queima 1 carta da mão dele.",
+    "DESC_DEATH": "Lendária (1x): por 3 turnos, os números do oponente perdem 2 e as cartas dele que lutam queimam.",
     "DEATH_CAST": "A MORTE DESPERTA!",
     "DEATH_ALERT": "CHAMAS DA MORTE!",
     "DEATH_END_ALERT": "A MARCA SE APAGA...",

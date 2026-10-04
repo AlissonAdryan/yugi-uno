@@ -118,6 +118,48 @@ function almond(ctx, x, y, w, h) {
     ctx.closePath();
 }
 
+// Olho da Emboscada sem clip(): a esclera e a íris (já com a pupila em fenda e o brilho, que andam juntos) entram
+// como padrão (CanvasPattern) preenchendo a amêndoa. Um clip() de caminho curvo custava uma máscara por frame;
+// preencher um caminho convexo com padrão é barato e recorta exatamente igual.
+const EYE_IRIS_R = 6;
+const eyePatternMatrix = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
+let scleraPattern = null;
+let irisPattern = null;
+
+function getScleraSprite() {
+    return sprite('sclera', 32, 16, (g, sw, sh) => {
+        const grad = g.createRadialGradient(sw / 2, sh / 2, 1, sw / 2, sh / 2, sw / 2);
+        grad.addColorStop(0, 'rgba(215, 255, 200, 0.95)');
+        grad.addColorStop(1, 'rgba(50, 110, 40, 0.95)');
+        g.fillStyle = grad;
+        g.fillRect(0, 0, sw, sh);
+    });
+}
+
+/** Íris + pupila em fenda + brilho, centrados (os três se movem juntos com o olhar). */
+function getIrisSprite() {
+    return sprite('irisFull', EYE_IRIS_R * 2, EYE_IRIS_R * 2, (g) => {
+        const c = EYE_IRIS_R;
+        const grad = g.createRadialGradient(c, c, 0.5, c, c, c);
+        grad.addColorStop(0, '#e2ffc4');
+        grad.addColorStop(0.35, '#39ff14');
+        grad.addColorStop(0.85, '#0c5205');
+        grad.addColorStop(1, 'rgba(12, 82, 5, 0)');
+        g.fillStyle = grad;
+        g.beginPath();
+        g.arc(c, c, c, 0, TAU);
+        g.fill();
+        g.fillStyle = '#020a02';
+        g.beginPath();
+        g.ellipse(c, c, 1.1, 3.8, 0, 0, TAU);
+        g.fill();
+        g.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        g.beginPath();
+        g.arc(c + 1.8, c - 1.6, 0.9, 0, TAU);
+        g.fill();
+    });
+}
+
 export function drawAmbushEye(ctx, w, h, time, phase) {
     const e = AMBUSH_EYE;
     let u = time / EYE_PERIOD + phase;
@@ -128,41 +170,30 @@ export function drawAmbushEye(ctx, w, h, time, phase) {
 
     ctx.lineCap = 'round';
     if (eh > 0.4) {
-        ctx.save();
+        if (!scleraPattern) {
+            scleraPattern = ctx.createPattern(getScleraSprite(), 'no-repeat');
+            irisPattern = ctx.createPattern(getIrisSprite(), 'no-repeat');
+        }
+        // Esclera: o sprite esticado em (x-w, y-h, 2w, 2h), recortado pela amêndoa
+        const sclera = getScleraSprite();
+        eyePatternMatrix.a = (e.w * 2) / sclera.width;
+        eyePatternMatrix.d = (e.h * 2) / sclera.height;
+        eyePatternMatrix.e = e.x - e.w;
+        eyePatternMatrix.f = e.y - e.h;
+        scleraPattern.setTransform(eyePatternMatrix);
         almond(ctx, e.x, e.y, e.w, eh);
-        ctx.clip();
-        const sclera = sprite('sclera', 32, 16, (g, sw, sh) => {
-            const grad = g.createRadialGradient(sw / 2, sh / 2, 1, sw / 2, sh / 2, sw / 2);
-            grad.addColorStop(0, 'rgba(215, 255, 200, 0.95)');
-            grad.addColorStop(1, 'rgba(50, 110, 40, 0.95)');
-            g.fillStyle = grad;
-            g.fillRect(0, 0, sw, sh);
-        });
-        ctx.drawImage(sclera, e.x - e.w, e.y - e.h, e.w * 2, e.h * 2);
-        // A íris vigia em volta devagar
+        ctx.fillStyle = scleraPattern;
+        ctx.fill();
+        // A íris vigia em volta devagar (mesmo caminho da amêndoa, sem refazer)
         const gx = e.x + Math.sin(time * 0.7 + phase * 4) * 4.5;
         const gy = e.y + Math.sin(time * 0.43 + phase * 2) * 1.2;
-        ctx.drawImage(sprite('iris', 12, 12, (g) => {
-            const grad = g.createRadialGradient(6, 6, 0.5, 6, 6, 6);
-            grad.addColorStop(0, '#e2ffc4');
-            grad.addColorStop(0.35, '#39ff14');
-            grad.addColorStop(0.85, '#0c5205');
-            grad.addColorStop(1, 'rgba(12, 82, 5, 0)');
-            g.fillStyle = grad;
-            g.beginPath();
-            g.arc(6, 6, 6, 0, TAU);
-            g.fill();
-        }), gx - 6, gy - 6, 12, 12);
-        // Pupila em fenda + brilho
-        ctx.fillStyle = '#020a02';
-        ctx.beginPath();
-        ctx.ellipse(gx, gy, 1.1, 3.8, 0, 0, TAU);
+        eyePatternMatrix.a = 1 / SPRITE_SCALE;
+        eyePatternMatrix.d = 1 / SPRITE_SCALE;
+        eyePatternMatrix.e = gx - EYE_IRIS_R;
+        eyePatternMatrix.f = gy - EYE_IRIS_R;
+        irisPattern.setTransform(eyePatternMatrix);
+        ctx.fillStyle = irisPattern;
         ctx.fill();
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-        ctx.beginPath();
-        ctx.arc(gx + 1.8, gy - 1.6, 0.9, 0, TAU);
-        ctx.fill();
-        ctx.restore();
     }
     // Pálpebras: halo aditivo + linha verde
     almond(ctx, e.x, e.y, e.w, Math.max(0.3, eh));
@@ -277,6 +308,79 @@ function paintFlame(g, w, h) {
     g.fill();
 }
 
+// Runas da Maldição: as formas são fixas (só o brilho pulsa). Cada uma é traçada UMA vez num atlas, alinhada ao
+// pixel exatamente como seria traçada na carta (o laminado é pintado a 1 px por unidade, com origem inteira), e
+// por frame vira um drawImage 1:1 com o mesmo alfa: pixel a pixel igual ao traço, e as 24 saem num lote só
+// (antes eram 24 strokes por carta, por frame).
+const RUNE_PAD = 2;
+const RUNE_COLOR = '#c77dff';
+const RUNE_WIDTH = 0.9;
+let runeAtlas = null;
+const runeSX = new Int32Array(RUNES.length);
+const runeBX = new Int32Array(RUNES.length);
+const runeBY = new Int32Array(RUNES.length);
+const runeBW = new Int32Array(RUNES.length);
+const runeBH = new Int32Array(RUNES.length);
+
+function getRuneAtlas() {
+    if (runeAtlas) return runeAtlas;
+    let x = 0;
+    let hMax = 0;
+    for (let i = 0; i < RUNES.length; i++) {
+        const r = RUNES[i];
+        const s = r.strokes;
+        let minX = Infinity;
+        let minY = Infinity;
+        let maxX = -Infinity;
+        let maxY = -Infinity;
+        for (let k = 0; k < s.length; k += 2) {
+            minX = Math.min(minX, r.x + s[k]);
+            maxX = Math.max(maxX, r.x + s[k]);
+            minY = Math.min(minY, r.y + s[k + 1]);
+            maxY = Math.max(maxY, r.y + s[k + 1]);
+        }
+        runeBX[i] = Math.floor(minX) - RUNE_PAD;
+        runeBY[i] = Math.floor(minY) - RUNE_PAD;
+        runeBW[i] = Math.ceil(maxX) + RUNE_PAD - runeBX[i];
+        runeBH[i] = Math.ceil(maxY) + RUNE_PAD - runeBY[i];
+        runeSX[i] = x;
+        x += runeBW[i] + RUNE_PAD;
+        hMax = Math.max(hMax, runeBH[i]);
+    }
+    runeAtlas = document.createElement('canvas');
+    runeAtlas.width = x;
+    runeAtlas.height = hMax;
+    const g = runeAtlas.getContext('2d');
+    g.strokeStyle = RUNE_COLOR;
+    g.lineWidth = RUNE_WIDTH;
+    for (let i = 0; i < RUNES.length; i++) {
+        // Mesmo deslocamento inteiro que a runa tem na carta: a rasterização sai idêntica
+        g.setTransform(1, 0, 0, 1, runeSX[i] - runeBX[i], -runeBY[i]);
+        traceRune(g, RUNES[i]);
+        g.stroke();
+    }
+    return runeAtlas;
+}
+
+// Elos da corrente: dois formatos (elo largo e fino) traçados uma vez em alta resolução; por frame cada elo é um
+// drawImage girado do mesmo sprite (antes: 10 strokes de elipse por carta, por frame)
+const CHAIN_RY = 2.6;
+const CHAIN_RX = Object.freeze([1.7, 0.5]);
+const CHAIN_COLOR = 'rgba(200, 180, 225, 0.55)';
+const CHAIN_WIDTH = 0.9;
+const CHAIN_BOX_W = 2 * (1.7 + CHAIN_WIDTH);
+const CHAIN_BOX_H = 2 * (CHAIN_RY + CHAIN_WIDTH);
+
+function getChainSprite(thin) {
+    return sprite(thin ? 'chainThin' : 'chainWide', CHAIN_BOX_W, CHAIN_BOX_H, (g, sw, sh) => {
+        g.strokeStyle = CHAIN_COLOR;
+        g.lineWidth = CHAIN_WIDTH;
+        g.beginPath();
+        g.ellipse(sw / 2, sh / 2, CHAIN_RX[thin ? 1 : 0], CHAIN_RY, 0, 0, TAU);
+        g.stroke();
+    });
+}
+
 export function drawCurseFx(ctx, w, h, time, phase, seed, pts) {
     const pulse = 0.5 + 0.5 * Math.sin(time * 1.5 + phase * TAU);
     const mist = sprite('curseMist', 64, 64, softBlob(150, 40, 230, 0.6));
@@ -350,18 +454,16 @@ export function drawCurseFx(ctx, w, h, time, phase, seed, pts) {
         ctx.drawImage(flame, x - fw / 2, y + 2.2 - fh, fw, fh);
     }
 
-    // Inscrições arcanas pulsando
-    ctx.strokeStyle = '#c77dff';
-    ctx.lineWidth = 0.9;
+    // Inscrições arcanas pulsando (atlas das runas: drawImage 1:1, ver getRuneAtlas)
+    const runes = getRuneAtlas();
     for (let i = 0; i < RUNES.length; i++) {
         ctx.globalAlpha = (0.15 + 0.55 * pulse) * (0.6 + 0.4 * Math.sin(time * 2 + i * 0.8));
-        traceRune(ctx, RUNES[i]);
-        ctx.stroke();
+        ctx.drawImage(runes, runeSX[i], 0, runeBW[i], runeBH[i], runeBX[i], runeBY[i], runeBW[i], runeBH[i]);
     }
 
-    // Correntes pendendo dos cantos de cima, balançando
-    ctx.strokeStyle = 'rgba(200, 180, 225, 0.55)';
-    ctx.lineWidth = 0.9;
+    // Correntes pendendo dos cantos de cima, balançando (cada elo = o sprite girado em volta do próprio centro)
+    const wide = getChainSprite(false);
+    const thin = getChainSprite(true);
     for (let side = 0; side < 2; side++) {
         const ax = side === 0 ? 14 : w - 14;
         const swing = Math.sin(time * 1.8 + side * 1.4 + phase * 4) * 0.16;
@@ -369,9 +471,11 @@ export function drawCurseFx(ctx, w, h, time, phase, seed, pts) {
         const dy = Math.cos(swing);
         for (let k = 0; k < 5; k++) {
             ctx.globalAlpha = 0.55 - k * 0.07;
-            ctx.beginPath();
-            ctx.ellipse(ax + dx * k * 4.2, 13 + dy * k * 4.2, k % 2 === 0 ? 1.7 : 0.5, 2.6, -swing, 0, TAU);
-            ctx.stroke();
+            ctx.save();
+            ctx.translate(ax + dx * k * 4.2, 13 + dy * k * 4.2);
+            ctx.rotate(-swing);
+            ctx.drawImage(k % 2 === 0 ? wide : thin, -CHAIN_BOX_W / 2, -CHAIN_BOX_H / 2, CHAIN_BOX_W, CHAIN_BOX_H);
+            ctx.restore();
         }
     }
     ctx.globalCompositeOperation = 'source-over';

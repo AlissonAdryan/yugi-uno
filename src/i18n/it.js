@@ -158,7 +158,7 @@ export const IT = {
     "FUSION_ALERT": "FUSIONE!",
     "CURSE_ALERT": "MALEDIZIONE!",
     "CARD_DEATH": "La Morte",
-    "DESC_DEATH": "Leggendaria (1x per partita): marchia l'avversario con le Fiamme della Morte. Per 3 turni i suoi numeri perdono 1 e ogni sua carta che combatte brucia. Alla fine, brucia 1 carta della sua mano.",
+    "DESC_DEATH": "Leggendaria (1x): per 3 turni, i numeri nemici perdono 2 e le sue carte che combattono bruciano.",
     "DEATH_CAST": "LA MORTE SI RISVEGLIA!",
     "DEATH_ALERT": "FIAMME DELLA MORTE!",
     "DEATH_END_ALERT": "IL MARCHIO SI SPEGNE...",

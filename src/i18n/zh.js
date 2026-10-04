@@ -158,7 +158,7 @@ export const ZH = {
     "FUSION_ALERT": "融合！",
     "CURSE_ALERT": "诅咒！",
     "CARD_DEATH": "死亡",
-    "DESC_DEATH": "传说（每局1次）：以死亡之焰烙印对手。3回合内，对手的数字牌-1，其参战的牌都会被焚尽。最后烧掉其手牌1张。",
+    "DESC_DEATH": "传奇（限1次）：3回合内，对手的数字-2，参战的对手卡牌会被烧毁。",
     "DEATH_CAST": "死亡觉醒！",
     "DEATH_ALERT": "死亡之焰！",
     "DEATH_END_ALERT": "烙印消散……",

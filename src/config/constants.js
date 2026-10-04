@@ -152,6 +152,9 @@ export const CONFIG = Object.freeze({
         get MAX_DPR() { return GRAPHICS.maxDpr; },
         // Com a loja aberta a mesa (atrás do véu escuro) é redesenhada no máximo a cada X ms (~60 fps em telas 120Hz)
         SHOP_BOARD_MIN_FRAME_MS: 15,
+        // Prévias animadas da loja (laminados): redesenhadas no máximo a cada X ms (~60 fps em telas 120Hz). A
+        // flutuação das cartas é CSS e segue no ritmo da tela. 0 = redesenhar todo frame
+        SHOP_PREVIEW_MIN_FRAME_MS: 15,
         UI_SCALE_MIN: 0.6,
         UI_SCALE_MAX: 1.25
     }),

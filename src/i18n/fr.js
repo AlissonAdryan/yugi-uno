@@ -162,7 +162,7 @@ export const FR = {
     "FUSION_ALERT": "FUSION !",
     "CURSE_ALERT": "MALÉDICTION !",
     "CARD_DEATH": "La Mort",
-    "DESC_DEATH": "Légendaire (1x par partie) : marque l'adversaire des Flammes de la Mort. Pendant 3 tours, ses nombres perdent 1 et chacune de ses cartes qui combat brûle. À la fin, 1 carte de sa main brûle.",
+    "DESC_DEATH": "Légendaire (1x) : pendant 3 tours, les nombres adverses perdent 2 et ses cartes qui combattent brûlent.",
     "DEATH_CAST": "LA MORT S'ÉVEILLE !",
     "DEATH_ALERT": "FLAMMES DE LA MORT !",
     "DEATH_END_ALERT": "LA MARQUE S'ÉTEINT...",

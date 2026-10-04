@@ -158,7 +158,7 @@ export const TR = {
     "FUSION_ALERT": "FÜZYON!",
     "CURSE_ALERT": "LANET!",
     "CARD_DEATH": "Ölüm",
-    "DESC_DEATH": "Efsanevi (maç başına 1 kez): rakibi Ölüm Alevleri ile damgalar. 3 tur boyunca sayı kartları 1 kaybeder ve savaşa giren her kartı yanar. Sonunda elinden 1 kart yanar.",
+    "DESC_DEATH": "Efsanevi (1 kez): 3 tur boyunca rakibin sayıları 2 kaybeder ve savaşan kartları yanar.",
     "DEATH_CAST": "ÖLÜM UYANIYOR!",
     "DEATH_ALERT": "ÖLÜM ALEVLERİ!",
     "DEATH_END_ALERT": "DAMGA SÖNÜYOR...",

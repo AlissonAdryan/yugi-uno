@@ -162,7 +162,7 @@ export const EN = {
     "FUSION_ALERT": "FUSION!",
     "CURSE_ALERT": "CURSE!",
     "CARD_DEATH": "Death",
-    "DESC_DEATH": "Legendary (1x per match): marks the opponent with the Flames of Death. For 3 turns their numbers lose 1 and every card of theirs that fights burns. At the end, 1 card in their hand burns.",
+    "DESC_DEATH": "Legendary (1x): for 3 turns, enemy numbers lose 2 and their cards that fight burn.",
     "DEATH_CAST": "DEATH AWAKENS!",
     "DEATH_ALERT": "FLAMES OF DEATH!",
     "DEATH_END_ALERT": "THE MARK FADES...",
