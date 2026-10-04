@@ -10,6 +10,8 @@ const { CARD_TYPES, SHOP, SHOP_ITEM_FLAGS, COLOR_HEX, ANIM } = CONFIG;
 const SLOTS = SHOP.SLOTS;
 // Tem que bater com a largura de .shop-card no CSS (a carta é desenhada em 100x150 unidades)
 const CARD_CSS_WIDTH = 115;
+// Borda transparente (px CSS) em volta da prévia: bate com o margin -3px de .shop-card no CSS
+const PREVIEW_PAD_CSS = 3;
 const CARD_UNITS = CONFIG.CARD_DIMENSIONS;
 const MOTE_COUNT = 16;
 // Raios dourados do fundo (bate com .shop-rays no CSS): leque de RAY_COUNT fatias de RAY_ARC_DEG a cada
@@ -119,6 +121,8 @@ export class ShopPanel {
 
         /** Desenha uma carta num contexto (fornecido pelo renderer do jogo). */
         this.painter = null;
+        /** Atlas de laminado das prévias ({ begin(), prepare(type, color, seed) }, fornecido pelo renderer) */
+        this.foils = null;
         /** Callbacks para o GameClient transformar em INPUT */
         this.onBuy = null;
         this.onReroll = null;
@@ -148,6 +152,7 @@ export class ShopPanel {
         /** Prévia estática (sem laminado/efeito vivo) já desenhada: não precisa repintar a cada frame */
         this.previewDrawn = new Uint8Array(SLOTS);
         this.cardDensity = 1;
+        this.previewPad = 0;
 
         this.particles = new ParticleSystem(800);
         this.loopId = 0;
@@ -479,9 +484,11 @@ export class ShopPanel {
     resizeCanvases() {
         const dpr = Math.min(window.devicePixelRatio || 1, CONFIG.VIEW.MAX_DPR);
         this.cardDensity = (CARD_CSS_WIDTH / CARD_UNITS.WIDTH) * (this.viewport.uiScale * 1.25) * dpr;
+        // px do canvas por px CSS (a carta tem CARD_CSS_WIDTH px pra CARD_UNITS.WIDTH unidades)
+        this.previewPad = Math.round(PREVIEW_PAD_CSS * this.cardDensity * CARD_UNITS.WIDTH / CARD_CSS_WIDTH);
         for (const s of this.slots) {
-            s.canvas.width = Math.round(CARD_UNITS.WIDTH * this.cardDensity);
-            s.canvas.height = Math.round(CARD_UNITS.HEIGHT * this.cardDensity);
+            s.canvas.width = Math.round(CARD_UNITS.WIDTH * this.cardDensity) + this.previewPad * 2;
+            s.canvas.height = Math.round(CARD_UNITS.HEIGHT * this.cardDensity) + this.previewPad * 2;
         }
         // Redimensionar apaga os canvas: as prévias estáticas e o canvas de partículas recomeçam limpos
         this.previewDrawn.fill(0);
@@ -536,10 +543,12 @@ export class ShopPanel {
     drawCard(slot) {
         const item = this.items[slot];
         if (!this.painter || !item || item.type === CARD_TYPES.HIDDEN) return;
-        const { ctx } = this.slots[slot];
+        const { ctx, canvas } = this.slots[slot];
         const d = this.cardDensity;
-        ctx.setTransform(d, 0, 0, d, 0, 0);
-        ctx.clearRect(0, 0, CARD_UNITS.WIDTH, CARD_UNITS.HEIGHT);
+        const pad = this.previewPad;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.setTransform(d, 0, 0, d, pad, pad);
         this.painter(ctx, item.type, item.color, item.power, 11 + slot * 7, d);
         // Antes da fonte carregar o pintor usa um fallback: a prévia estática segue sendo repintada até sair a certa
         // (a animada é repintada todo frame de qualquer jeito, então nem consulta a fonte)
@@ -912,6 +921,14 @@ export class ShopPanel {
         }
 
         // Prévias ao vivo: o laminado/efeitos animados continuam rodando; faces estáticas são pintadas uma vez
+        // Laminados das prévias animadas pintados num atlas antes do 1º carimbo (uma foto por frame, não por carta)
+        if (this.foils) {
+            this.foils.begin();
+            for (let slot = 0; slot < SLOTS; slot++) {
+                const item = this.items[slot];
+                if (item && this.isAnimatedPreview(slot)) this.foils.prepare(item.type, item.color, 11 + slot * 7);
+            }
+        }
         for (let slot = 0; slot < SLOTS; slot++) {
             if (!this.previewDrawn[slot] || this.isAnimatedPreview(slot)) this.drawCard(slot);
         }

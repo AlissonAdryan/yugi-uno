@@ -100,6 +100,9 @@ body {
 .plasma-blob--light { animation: plasmaTravelLight var(--plasma-speed-light) ease-in-out infinite; }
 .plasma-blob--dark { animation: plasmaTravelDark var(--plasma-speed-dark) ease-in-out infinite; }
 .plasma-blob--accent { animation: plasmaTravelAccent var(--plasma-speed-accent) ease-in-out infinite; }
+/* Com o menu aberto (opaco, cobre tudo) o fundo da partida não aparece: as bolhas dele ficam paradas em vez de
+   gastar estilo/compositor a cada frame (as do próprio menu, em .menu-bg, continuam) */
+body:has(#main-menu:not([hidden])) .plasma-bg .plasma-blob { animation-play-state: paused; }
 
 .plasma-layer--base .plasma-blob--light { background: radial-gradient(circle var(--plasma-blob-radius) at center, var(--bg-2), transparent); opacity: var(--plasma-light-opacity); }
 .plasma-layer--base .plasma-blob--dark { background: radial-gradient(circle var(--plasma-blob-radius) at center, var(--bg-3), transparent); opacity: var(--plasma-dark-opacity); }
@@ -1951,8 +1954,22 @@ input:focus-visible + .slider {
     cursor: pointer;
 }
 
+/*
+ * Pulso verde da vitória SEM animar background (repintava a tela inteira todo frame). O fundo fica fixo na cor
+ * inicial e uma camada por cima sobe a opacity de 0 a 1 com a mesma curva. Matemática exata da interpolação
+ * (pré-multiplicada) de rgba(0,50,0,.3) -> rgba(0,100,0,.6): camada de cor rgba(0,120,0,3/7) com opacity t dá
+ * alfa .3 + .3t e verde pré-multiplicado 15 + 45t, igualzinho ao original.
+ */
 #victory-screen {
-    background: rgba(0, 20, 0, 0.4);
+    background: rgba(0, 50, 0, 0.3);
+}
+#victory-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 120, 0, 0.428571);
+    pointer-events: none;
     animation: flashVictory 2s infinite alternate;
 }
 
@@ -1988,8 +2005,8 @@ input:focus-visible + .slider {
 }
 
 @keyframes flashVictory {
-    from { background: rgba(0, 50, 0, 0.3); }
-    to { background: rgba(0, 100, 0, 0.6); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes scalePulse {
@@ -2053,18 +2070,68 @@ input:focus-visible + .slider {
 }
 
 .game-title {
+    position: relative;
+    isolation: isolate; /* os brilhos (z-index -1) ficam atrás do texto, mas dentro do título */
     font-size: 100px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 5px;
-    text-shadow: 0 0 10px #8e2de2, 0 0 20px #8e2de2, 0 0 40px #4a00e0, 0 0 80px #4a00e0;
-    animation: titleGlow 2s ease-in-out infinite alternate, titleFloat 4s ease-in-out infinite;
+    animation: titleFloat 4s ease-in-out infinite;
 }
 
-@keyframes titleGlow {
-    from { text-shadow: 0 0 10px #8e2de2, 0 0 20px #8e2de2, 0 0 30px #4a00e0; }
-    to { text-shadow: 0 0 20px #8e2de2, 0 0 40px #8e2de2, 0 0 60px #4a00e0, 0 0 100px #4a00e0, 0 0 150px #fff; }
+/*
+ * Brilho pulsando SEM animar text-shadow: animar text-shadow repinta o título (com desfoques de até 150px)
+ * e refaz o layout em todo frame na thread principal — o FPS do menu caía justamente no pico do brilho.
+ * Aqui os dois extremos do brilho são camadas estáticas (cópias do texto, transparentes, só com a sombra),
+ * rasterizadas uma vez; o pulso é só a opacity delas trocando no compositor. As curvas (titleGlowFrom/To)
+ * seguem o mesmo ease-in-out de 2s do brilho original, cruzadas com expoente 1.25 (A = 1 - p^1.25, B = 1 - (1-p)^1.25), o que mais se aproxima do original medido por pixel.
+ */
+.game-title::before,
+.game-title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: transparent;
+    pointer-events: none;
+    animation: 2s linear infinite alternate;
+}
+.game-title::before {
+    text-shadow: 0 0 10px #8e2de2, 0 0 20px #8e2de2, 0 0 30px #4a00e0;
+    animation-name: titleGlowFrom;
+}
+.game-title::after {
+    text-shadow: 0 0 20px #8e2de2, 0 0 40px #8e2de2, 0 0 60px #4a00e0, 0 0 100px #4a00e0, 0 0 150px #fff;
+    animation-name: titleGlowTo;
+}
+
+@keyframes titleGlowFrom {
+    0% { opacity: 1.000; }
+    10% { opacity: 0.993; }
+    20% { opacity: 0.956; }
+    30% { opacity: 0.877; }
+    40% { opacity: 0.748; }
+    50% { opacity: 0.580; }
+    60% { opacity: 0.396; }
+    70% { opacity: 0.228; }
+    80% { opacity: 0.101; }
+    90% { opacity: 0.025; }
+    100% { opacity: 0.000; }
+}
+
+@keyframes titleGlowTo {
+    0% { opacity: 0.000; }
+    10% { opacity: 0.025; }
+    20% { opacity: 0.101; }
+    30% { opacity: 0.228; }
+    40% { opacity: 0.396; }
+    50% { opacity: 0.580; }
+    60% { opacity: 0.748; }
+    70% { opacity: 0.877; }
+    80% { opacity: 0.956; }
+    90% { opacity: 0.993; }
+    100% { opacity: 1.000; }
 }
 
 @keyframes titleFloat {
@@ -2618,12 +2685,20 @@ input:focus-visible + .slider {
     text-shadow: 0 0 14px rgba(255, 196, 40, 0.75), 0 3px 0 #7a4a00;
 }
 
+/* A animação fica no invólucro e o filtro no SVG parado: um filter num elemento animado obrigava o Chrome a
+   refazer as camadas (Layerize) da página inteira em todo frame com a loja aberta */
 .shop-title-icon {
+    display: inline-block;
     width: 34px;
     height: 34px;
     color: #ffe38a;
-    filter: drop-shadow(0 0 6px rgba(255, 196, 40, 0.8));
     animation: cartBob 2.4s ease-in-out infinite;
+}
+.shop-title-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(255, 196, 40, 0.8));
 }
 
 .shop-wallet {
@@ -2740,10 +2815,13 @@ input:focus-visible + .slider {
     animation-delay: calc(var(--i) * -1.07s);
 }
 
+/* O canvas é PREVIEW_PAD px maior de cada lado (transparente): a borda da camada girada pelo compositor cai no
+   transparente (lá ela não tem anti-aliasing no Android) e a borda da carta fica suavizada dentro da textura */
 .shop-card {
     display: block;
-    width: 115px;
-    height: 172px;
+    width: calc(115px + 6px);
+    height: calc(172px + 6px);
+    margin: -3px;
 }
 
 .shop-name {

@@ -150,6 +150,8 @@ export const CONFIG = Object.freeze({
         DESIGN_WIDTH: 1425,
         DESIGN_HEIGHT: 926,
         get MAX_DPR() { return GRAPHICS.maxDpr; },
+        // Com a loja aberta a mesa (atrás do véu escuro) é redesenhada no máximo a cada X ms (~60 fps em telas 120Hz)
+        SHOP_BOARD_MIN_FRAME_MS: 15,
         UI_SCALE_MIN: 0.6,
         UI_SCALE_MAX: 1.25
     }),

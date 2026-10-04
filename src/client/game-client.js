@@ -32,6 +32,7 @@ const HALF_W = CARD_DIMENSIONS.WIDTH / 2;
 const HALF_H = CARD_DIMENSIONS.HEIGHT / 2;
 const PREDICTED_HAND_ORDER = 254;
 const DRAG_Z_INDEX = 1000;
+const SHOP_BOARD_MIN_FRAME_MS = CONFIG.VIEW.SHOP_BOARD_MIN_FRAME_MS;
 
 /**
  * GameClient - o "jogador" local (host ou convidado). Só desenha e envia intenções:
@@ -116,6 +117,8 @@ export class GameClient {
         this.queue = [];
         this.pumping = false;
         this.hoveredCard = -1;
+        // Tempo de jogo acumulado enquanto a mesa não é redesenhada (loja aberta, ver render)
+        this.boardDt = 0;
         this.started = false;
         this.boardFrozen = false;
         this.knownSelfName = '';
@@ -156,6 +159,10 @@ export class GameClient {
         this.shopPanel.painter = (ctx, type, color, power, seed, density) =>
             this.renderer.drawCardInto(ctx, type, color, power, seed, density);
         this.cardInfo.painter = this.shopPanel.painter;
+        this.shopPanel.foils = {
+            begin: () => this.renderer.beginPreviewFoils(),
+            prepare: (type, color, seed) => this.renderer.preparePreviewFoil(type, color, seed)
+        };
         // Sprites da Ronova (íris, chamas, brilhos, vinheta) pintados em tempo ocioso: o olho não "soluça" na 1ª vez
         const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
         idle(() => {
@@ -1163,7 +1170,19 @@ export class GameClient {
         this.scene.draggedCard = this.input.draggedCard;
         // O olho da Ronova cobre a tela inteira, opaco: desenhar a mesa por baixo seria trabalho jogado fora
         // (animações e partículas continuam avançando acima; o próximo frame visível já sai certo)
+        this.renderer.advanceTime(dt);
         if (ronovaOverlayCovers()) return;
+        // Loja aberta: a mesa fica atrás do véu escuro e da janela; em telas de 120Hz+ ela é desenhada a no máximo
+        // ~60 fps (o tempo pulado vai junto no próximo desenho, então nada acelera nem atrasa). A loja segue no
+        // ritmo da tela.
+        if (this.shopPanel.isOpen) {
+            this.boardDt += dt;
+            if (this.boardDt < SHOP_BOARD_MIN_FRAME_MS) return;
+            dt = this.boardDt;
+        } else if (this.boardDt > 0) {
+            dt += this.boardDt;
+        }
+        this.boardDt = 0;
         this.renderer.draw(this.scene, dt);
     }
 }

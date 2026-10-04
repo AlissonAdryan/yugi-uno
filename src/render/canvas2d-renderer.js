@@ -123,6 +123,8 @@ export class Canvas2DRenderer {
         this.pixelScale = 1;
         this.art = new CardArt();
         this.effects = new CardEffects();
+        // Prévias fora da mesa (loja, painel de info): atlas de laminado próprio, pra não disputar o da mesa
+        this.previewEffects = new CardEffects();
         this.glowSprite = null;
         this.paintEdge = new Float32Array(PAINT_SEGMENTS + 1);
         // Estado da carta sendo desenhada (lido por drawStyledFace sem mudar a assinatura de drawFace)
@@ -186,7 +188,6 @@ export class Canvas2DRenderer {
         const vp = this.viewport;
         const pixelScale = vp.scale * vp.dpr;
         this.pixelScale = pixelScale;
-        this.time += dt / 1000;
         ctx.setTransform(pixelScale, 0, 0, pixelScale, 0, 0);
         ctx.clearRect(0, 0, vp.width, vp.height);
 
@@ -391,10 +392,35 @@ export class Canvas2DRenderer {
      */
     drawCardInto(ctx, type, color, power, seed, density) {
         const saved = this.pixelScale;
+        const savedEffects = this.effects;
         this.pixelScale = 1;
+        this.effects = this.previewEffects;
         if (type === CARD_TYPES.HIDDEN) this.drawBack(ctx);
         else this.drawFace(ctx, type, color, power, seed, density);
+        this.effects = savedEffects;
         this.pixelScale = saved;
+    }
+
+    /**
+     * Avança o relógio das animações das cartas (laminados, chamas). Chamado todo frame pelo cliente, mesmo nos
+     * frames em que a mesa não é redesenhada: as prévias da loja usam o mesmo relógio e seguem fluidas.
+     * @param {number} dt ms
+     */
+    advanceTime(dt) {
+        this.time += dt / 1000;
+    }
+
+    /** Início de um frame das prévias (loja): esvazia o atlas de laminado delas. */
+    beginPreviewFoils() {
+        this.previewEffects.beginFrame();
+    }
+
+    /** Pinta no atlas das prévias o laminado de uma carta que drawCardInto vai desenhar neste frame. */
+    preparePreviewFoil(type, color, seed) {
+        const visual = CARD_VISUALS[type];
+        if (!visual || !visual.fx || !GRAPHICS.enableFoil) return;
+        this.previewEffects.prepare(visual.fx, CARD_DIMENSIONS.WIDTH, CARD_DIMENSIONS.HEIGHT, CARD_DIMENSIONS.RADIUS,
+            this.time, seed, color, false);
     }
 
     /** Brilho radial dourado pré-rasterizado (atrás da carta gigante); criado uma única vez. */
