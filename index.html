@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-BPp2x7rg.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B-qGtA8Y.css">
+  <script type="module" crossorigin src="./assets/index-BNka3GZp.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DS8EYIWn.css">
 </head>
-<body>
+<body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
          gradientes dentro de um SVG com display:none não renderizam em alguns navegadores. -->
     <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
@@ -99,6 +99,15 @@
                 <input type="range" id="volume-sfx" min="0" max="100" value="100" step="1">
                 <span id="volume-sfx-value" class="settings-value">100%</span>
             </div>
+
+            <!-- Tela cheia: o texto alterna entre entrar/sair (settings-panel.js); some se o navegador não suporta -->
+            <button id="fullscreen-btn" class="settings-fullscreen" type="button" hidden>
+                <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="icon-enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>
+                    <path class="icon-exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>
+                </svg>
+                <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
+            </button>
 
             <button id="settings-close" class="menu-btn secondary" data-i18n="CLOSE">FECHAR</button>
         </div>
