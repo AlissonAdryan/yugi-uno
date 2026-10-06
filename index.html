@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-CRcQBeuy.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CtgmOqFI.css">
+  <script type="module" crossorigin src="./assets/index-MRhLXoOg.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-FMyoO8Y8.css">
 </head>
-<body>
+<body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
          gradientes dentro de um SVG com display:none não renderizam em alguns navegadores. -->
     <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
@@ -110,16 +110,55 @@
                 <span id="volume-sfx-value" class="settings-value">100%</span>
             </div>
 
-            <!-- Tela cheia: o texto alterna entre entrar/sair (settings-panel.js); some se o navegador não suporta -->
-            <button id="fullscreen-btn" class="settings-fullscreen" type="button" hidden>
-                <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path class="icon-enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>
-                    <path class="icon-exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>
-                </svg>
-                <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
-            </button>
+            <div class="settings-actions">
+                <!-- Músicas: abre o cartão de músicas (music-panel.js) com a música tema e a da loja -->
+                <button id="music-library-btn" class="settings-fullscreen" type="button">
+                    <svg class="music-library-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg>
+                    <span data-i18n="MUSIC_LIBRARY">MÚSICAS</span>
+                </button>
+                <!-- Tela cheia: o texto alterna entre entrar/sair (settings-panel.js); some se o navegador não suporta -->
+                <button id="fullscreen-btn" class="settings-fullscreen" type="button" hidden>
+                    <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path class="icon-enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>
+                        <path class="icon-exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>
+                    </svg>
+                    <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
+                </button>
+            </div>
 
             <button id="settings-close" class="menu-btn secondary" data-i18n="CLOSE">FECHAR</button>
+        </div>
+
+        <!-- Músicas do jogador: substituem a música tema e a da loja e ficam salvas no navegador (custom-music.js) -->
+        <div id="music-content" class="settings-content music-content" hidden>
+            <h2 class="settings-title" data-i18n="MUSIC_LIBRARY">MÚSICAS</h2>
+                <div class="music-slot" data-slot="MAIN_THEME">
+                    <div class="music-slot-head">
+                        <span class="music-slot-title" data-i18n="MUSIC_SLOT_MAIN">MÚSICA TEMA</span>
+                        <button class="music-preview" type="button" data-action="preview"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="icon-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg></button>
+                    </div>
+                    <div class="music-slot-file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg><span class="music-slot-name"></span></div>
+                    <div class="music-slot-actions">
+                        <button class="music-btn" type="button" data-action="pick" data-i18n="MUSIC_PICK">ESCOLHER ARQUIVO</button>
+                        <button class="music-btn" type="button" data-action="default" data-i18n="MUSIC_USE_DEFAULT">PADRÃO</button>
+                    </div>
+                </div>
+                <div class="music-slot" data-slot="SHOP_THEME">
+                    <div class="music-slot-head">
+                        <span class="music-slot-title" data-i18n="MUSIC_SLOT_SHOP">MÚSICA DA LOJA</span>
+                        <button class="music-preview" type="button" data-action="preview"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="icon-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg></button>
+                    </div>
+                    <div class="music-slot-file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg><span class="music-slot-name"></span></div>
+                    <div class="music-slot-actions">
+                        <button class="music-btn" type="button" data-action="pick" data-i18n="MUSIC_PICK">ESCOLHER ARQUIVO</button>
+                        <button class="music-btn" type="button" data-action="default" data-i18n="MUSIC_USE_DEFAULT">PADRÃO</button>
+                        <button class="music-btn" type="button" data-action="none" data-i18n="MUSIC_USE_NONE">NENHUMA</button>
+                    </div>
+                </div>
+            <p class="music-formats" data-i18n="MUSIC_FORMATS"></p>
+            <p id="music-status" class="music-status" role="status" aria-live="polite"></p>
+            <button id="music-back" class="menu-btn secondary" type="button" data-i18n="BACK">VOLTAR</button>
+            <input type="file" id="music-file" hidden>
         </div>
     </div>
 
