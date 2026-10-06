@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-DjTsxK4g.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DS8EYIWn.css">
+  <script type="module" crossorigin src="./assets/index-DoUm0wbz.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-B5fEGZfS.css">
 </head>
-<body>
+<body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
          gradientes dentro de um SVG com display:none não renderizam em alguns navegadores. -->
     <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
@@ -192,6 +192,8 @@
                 </span>
                 <!-- A Morte: chamas carmesim na vida do marcado (plantada: só quem usou e espectadores veem) -->
                 <span class="hp-death" aria-hidden="true"><b class="hp-death-turns"></b></span>
+                <!-- Espião enviado (só quem usou e espectadores veem): o agente espera a próxima compra deste jogador -->
+                <span class="hp-spy-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.2 11.6 8.1 6.4c.2-1 1.1-1.6 2.1-1.4l.7.2c.7.2 1.5.2 2.2 0l.7-.2c1-.2 1.9.4 2.1 1.4l.9 5.2z"/><path d="M2 13.2c0-1.2 4.5-2.2 10-2.2s10 1 10 2.2-4.5 2-10 2-10-.8-10-2z"/><path d="M7.6 17.1c.9-.6 2.1-.8 3-.5l-.4 1.1c-.8-.1-1.6.1-2.2.5zM16.4 17.1c-.9-.6-2.1-.8-3-.5l.4 1.1c.8-.1 1.6.1 2.2.5z"/></svg></span>
                 <div class="hp-fx hp-fx--front" aria-hidden="true">
                     <span class="hp-shield"></span>
                     <span class="hp-shield-ripple"></span>
@@ -220,6 +222,8 @@
                 <span id="self-name" class="player-name" data-i18n="YOU">VOCÊ</span>
                 <span id="self-hp" class="hp-value">30</span>
                 <span class="hp-death" aria-hidden="true"><b class="hp-death-turns"></b></span>
+                <!-- Espião do oponente esperando a sua compra (só espectadores veem) -->
+                <span class="hp-spy-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.2 11.6 8.1 6.4c.2-1 1.1-1.6 2.1-1.4l.7.2c.7.2 1.5.2 2.2 0l.7-.2c1-.2 1.9.4 2.1 1.4l.9 5.2z"/><path d="M2 13.2c0-1.2 4.5-2.2 10-2.2s10 1 10 2.2-4.5 2-10 2-10-.8-10-2z"/><path d="M7.6 17.1c.9-.6 2.1-.8 3-.5l-.4 1.1c-.8-.1-1.6.1-2.2.5zM16.4 17.1c-.9-.6-2.1-.8-3-.5l.4 1.1c.8-.1 1.6.1 2.2.5z"/></svg></span>
                 <div class="hp-fx hp-fx--front" aria-hidden="true">
                     <span class="hp-shield"></span>
                     <span class="hp-shield-ripple"></span>
