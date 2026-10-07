@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-CjxLnRxn.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CtgmOqFI.css">
+  <script type="module" crossorigin src="./assets/index-CDrE9tr9.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CUh9gxwv.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -110,16 +110,55 @@
                 <span id="volume-sfx-value" class="settings-value">100%</span>
             </div>
 
-            <!-- Tela cheia: o texto alterna entre entrar/sair (settings-panel.js); some se o navegador não suporta -->
-            <button id="fullscreen-btn" class="settings-fullscreen" type="button" hidden>
-                <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path class="icon-enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>
-                    <path class="icon-exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>
-                </svg>
-                <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
-            </button>
+            <div class="settings-actions">
+                <!-- Músicas: abre o cartão de músicas (music-panel.js) com a música tema e a da loja -->
+                <button id="music-library-btn" class="settings-fullscreen" type="button">
+                    <svg class="music-library-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg>
+                    <span data-i18n="MUSIC_LIBRARY">MÚSICAS</span>
+                </button>
+                <!-- Tela cheia: o texto alterna entre entrar/sair (settings-panel.js); some se o navegador não suporta -->
+                <button id="fullscreen-btn" class="settings-fullscreen" type="button" hidden>
+                    <svg class="fullscreen-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path class="icon-enter" d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>
+                        <path class="icon-exit" d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>
+                    </svg>
+                    <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
+                </button>
+            </div>
 
             <button id="settings-close" class="menu-btn secondary" data-i18n="CLOSE">FECHAR</button>
+        </div>
+
+        <!-- Músicas do jogador: substituem a música tema e a da loja e ficam salvas no navegador (custom-music.js) -->
+        <div id="music-content" class="settings-content music-content" hidden>
+            <h2 class="settings-title" data-i18n="MUSIC_LIBRARY">MÚSICAS</h2>
+                <div class="music-slot" data-slot="MAIN_THEME">
+                    <div class="music-slot-head">
+                        <span class="music-slot-title" data-i18n="MUSIC_SLOT_MAIN">MÚSICA TEMA</span>
+                        <button class="music-preview" type="button" data-action="preview"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="icon-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg></button>
+                    </div>
+                    <div class="music-slot-file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg><span class="music-slot-name"></span></div>
+                    <div class="music-slot-actions">
+                        <button class="music-btn" type="button" data-action="pick" data-i18n="MUSIC_PICK">ESCOLHER ARQUIVO</button>
+                        <button class="music-btn" type="button" data-action="default" data-i18n="MUSIC_USE_DEFAULT">PADRÃO</button>
+                    </div>
+                </div>
+                <div class="music-slot" data-slot="SHOP_THEME">
+                    <div class="music-slot-head">
+                        <span class="music-slot-title" data-i18n="MUSIC_SLOT_SHOP">MÚSICA DA LOJA</span>
+                        <button class="music-preview" type="button" data-action="preview"><svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="icon-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg></button>
+                    </div>
+                    <div class="music-slot-file"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3a2.7 2.7 0 1 1-2-2.6V8.1l-6 1.3v8.1a2.7 2.7 0 1 1-2-2.6z"/></svg><span class="music-slot-name"></span></div>
+                    <div class="music-slot-actions">
+                        <button class="music-btn" type="button" data-action="pick" data-i18n="MUSIC_PICK">ESCOLHER ARQUIVO</button>
+                        <button class="music-btn" type="button" data-action="default" data-i18n="MUSIC_USE_DEFAULT">PADRÃO</button>
+                        <button class="music-btn" type="button" data-action="none" data-i18n="MUSIC_USE_NONE">NENHUMA</button>
+                    </div>
+                </div>
+            <p class="music-formats" data-i18n="MUSIC_FORMATS"></p>
+            <p id="music-status" class="music-status" role="status" aria-live="polite"></p>
+            <button id="music-back" class="menu-btn secondary" type="button" data-i18n="BACK">VOLTAR</button>
+            <input type="file" id="music-file" hidden>
         </div>
     </div>
 
@@ -136,6 +175,36 @@
                 <button id="btn-play-cpu" class="menu-btn primary" data-i18n="PVE">PLAYER VS CPU</button>
                 <button id="btn-create-room" class="menu-btn secondary" data-i18n="CREATE_ROOM">CRIAR SALA</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Dificuldade do Player vs CPU (cpu-level-picker.js): tocar num nível já começa a partida -->
+    <div id="cpu-modal" class="room-modal cpu-modal" hidden>
+        <div class="room-card cpu-card">
+            <h2 class="room-title" data-i18n="CPU_LEVEL_TITLE">DIFICULDADE</h2>
+            <button class="cpu-level cpu-level--easy" type="button" data-level="easy">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_EASY"></b>
+                    <small data-i18n="CPU_EASY_DESC"></small>
+                </span>
+            </button>
+            <button class="cpu-level cpu-level--medium" type="button" data-level="medium">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_MEDIUM"></b>
+                    <small data-i18n="CPU_MEDIUM_DESC"></small>
+                </span>
+            </button>
+            <button class="cpu-level cpu-level--hard" type="button" data-level="hard">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_HARD"></b>
+                    <small data-i18n="CPU_HARD_DESC"></small>
+                </span>
+                <span class="cpu-level-aura" aria-hidden="true"></span>
+            </button>
+            <button id="btn-cpu-back" class="menu-btn secondary" type="button" data-i18n="BACK">Voltar</button>
         </div>
     </div>
 
