@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-MRhLXoOg.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-FMyoO8Y8.css">
+  <script type="module" crossorigin src="./assets/index-NN-s18DY.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CUh9gxwv.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -175,6 +175,36 @@
                 <button id="btn-play-cpu" class="menu-btn primary" data-i18n="PVE">PLAYER VS CPU</button>
                 <button id="btn-create-room" class="menu-btn secondary" data-i18n="CREATE_ROOM">CRIAR SALA</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Dificuldade do Player vs CPU (cpu-level-picker.js): tocar num nível já começa a partida -->
+    <div id="cpu-modal" class="room-modal cpu-modal" hidden>
+        <div class="room-card cpu-card">
+            <h2 class="room-title" data-i18n="CPU_LEVEL_TITLE">DIFICULDADE</h2>
+            <button class="cpu-level cpu-level--easy" type="button" data-level="easy">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_EASY"></b>
+                    <small data-i18n="CPU_EASY_DESC"></small>
+                </span>
+            </button>
+            <button class="cpu-level cpu-level--medium" type="button" data-level="medium">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_MEDIUM"></b>
+                    <small data-i18n="CPU_MEDIUM_DESC"></small>
+                </span>
+            </button>
+            <button class="cpu-level cpu-level--hard" type="button" data-level="hard">
+                <span class="cpu-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                <span class="cpu-level-text">
+                    <b data-i18n="CPU_HARD"></b>
+                    <small data-i18n="CPU_HARD_DESC"></small>
+                </span>
+                <span class="cpu-level-aura" aria-hidden="true"></span>
+            </button>
+            <button id="btn-cpu-back" class="menu-btn secondary" type="button" data-i18n="BACK">Voltar</button>
         </div>
     </div>
 
