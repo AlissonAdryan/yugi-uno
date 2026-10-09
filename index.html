@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-Bqp9EbRj.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DSm_bd3T.css">
+  <script type="module" crossorigin src="./assets/index-JkSsYjEY.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Zmxre7dy.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -394,6 +394,30 @@
             <!-- Evento da Arena (surge-hud.js): vinheta do Frenesi, bordas do Cromático, selo do evento ativo e a roleta do sorteio -->
             <div id="surge-frenzy" class="surge-frenzy" aria-hidden="true"></div>
             <div id="surge-chromatic" class="surge-chromatic" aria-hidden="true"></div>
+            <!-- Ampulheta (GAME_RULES §6.22): véu âmbar estático enquanto a mesa está congelada (tempo-hud.js) -->
+            <div id="time-frozen" class="time-frozen" aria-hidden="true"></div>
+            <!-- Ultimato (GAME_RULES §6.23): selo do Duelo marcado / em andamento (público, os dois veem) -->
+            <div id="duel-badge" class="duel-badge" hidden>
+                <span class="duel-badge-icon" aria-hidden="true">⚔</span>
+                <span class="duel-badge-text"><b class="duel-badge-name"></b><small class="duel-badge-rules"></small></span>
+            </div>
+            <!-- Ultimato: palco das cinemáticas de DOM (o lacre do desafio e as lâminas da abertura); escondido fora delas -->
+            <div id="duel-stage" class="duel-stage" aria-hidden="true" hidden>
+                <div class="duel-blade duel-blade--left"><svg viewBox="0 0 240 40" preserveAspectRatio="none"><defs><linearGradient id="duel-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9c0d2"/><stop offset=".55" stop-color="#6d7488"/><stop offset="1" stop-color="#272b3a"/></linearGradient><linearGradient id="duel-hilt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".5" stop-color="#e0a93e"/><stop offset="1" stop-color="#7a4f12"/></linearGradient></defs><path d="M48 15 L222 16.5 Q238 20 222 23.5 L48 25 Z" fill="url(#duel-steel)"/><path d="M50 17.5 L224 19" stroke="#fff" stroke-width="1.2" opacity=".8"/><rect x="40" y="4" width="8" height="32" rx="3" fill="url(#duel-hilt)"/><rect x="10" y="14" width="30" height="12" rx="2" fill="#3a0b0b"/><circle cx="8" cy="20" r="7" fill="url(#duel-hilt)"/></svg></div>
+                <div class="duel-blade duel-blade--right"><svg viewBox="0 0 240 40" preserveAspectRatio="none"><defs><linearGradient id="duel-steel-2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9c0d2"/><stop offset=".55" stop-color="#6d7488"/><stop offset="1" stop-color="#272b3a"/></linearGradient><linearGradient id="duel-hilt-2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".5" stop-color="#e0a93e"/><stop offset="1" stop-color="#7a4f12"/></linearGradient></defs><path d="M48 15 L222 16.5 Q238 20 222 23.5 L48 25 Z" fill="url(#duel-steel-2)"/><path d="M50 17.5 L224 19" stroke="#fff" stroke-width="1.2" opacity=".8"/><rect x="40" y="4" width="8" height="32" rx="3" fill="url(#duel-hilt-2)"/><rect x="10" y="14" width="30" height="12" rx="2" fill="#3a0b0b"/><circle cx="8" cy="20" r="7" fill="url(#duel-hilt-2)"/></svg></div>
+                <div class="duel-seal"><svg viewBox="0 0 100 100"><defs><radialGradient id="duel-wax" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#ff7464"/><stop offset=".45" stop-color="#c41f1f"/><stop offset="1" stop-color="#4d0608"/></radialGradient></defs><path d="M50 4 C62 4 66 9 74 11 C84 14 92 22 94 34 C97 44 92 50 95 60 C97 72 88 84 76 90 C66 95 60 92 50 96 C38 99 30 93 22 88 C11 81 5 70 6 58 C7 48 3 42 6 32 C10 19 22 10 34 7 C41 5 44 4 50 4 Z" fill="url(#duel-wax)"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,190,170,.55)" stroke-width="2.5"/><g stroke="rgba(255,228,210,.92)" stroke-linecap="round"><path d="M33 67 L64 36" stroke-width="4.5"/><path d="M67 67 L36 36" stroke-width="4.5"/><path d="M58 33 L69 44" stroke-width="5"/><path d="M42 33 L31 44" stroke-width="5"/></g><g fill="rgba(255,228,210,.92)"><circle cx="30" cy="70" r="4.5"/><circle cx="70" cy="70" r="4.5"/></g><ellipse cx="36" cy="30" rx="10" ry="5" fill="rgba(255,255,255,.3)" transform="rotate(-35 36 30)"/></svg></div>
+                <div class="duel-flash"></div>
+                <div class="duel-title"><b class="duel-title-main"></b><small class="duel-title-rules"></small></div>
+            </div>
+            <!-- Ultimato: tributo — o vencedor do Duelo escolhe uma carta da mão do perdedor (duel-tribute.js) -->
+            <div id="duel-tribute" class="duel-tribute" role="dialog" aria-modal="true" hidden>
+                <div class="duel-tribute-card">
+                    <h2 class="duel-tribute-title"></h2>
+                    <p class="duel-tribute-sub"></p>
+                    <div class="duel-tribute-cards"></div>
+                    <div class="duel-tribute-timer"><span></span></div>
+                </div>
+            </div>
             <div id="surge-badge" class="surge-badge" role="button" tabindex="0" hidden>
                 <span class="surge-badge-icon" aria-hidden="true"></span>
                 <span class="surge-badge-name"></span>
