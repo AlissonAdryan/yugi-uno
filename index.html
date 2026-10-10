@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-JkSsYjEY.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Zmxre7dy.css">
+  <script type="module" crossorigin src="./assets/index-D7U5FcZp.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BN_GyJj4.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -389,6 +389,22 @@
             </div>
 
             <button id="end-turn-btn" hidden disabled data-i18n="END_TURN">FINALIZAR TURNO</button>
+            <!-- Coluna de status (abaixo do botão de finalizar): selos clicáveis do que vale na partida. Um selo novo =
+                 um filho .status-badge aqui + bindStatusBadge/StatusInfoPanel (src/ui/status-info.js) -->
+            <div id="status-rail" class="status-rail">
+                <!-- Evento da Arena ativo (surge-hud.js) -->
+                <div id="surge-badge" class="status-badge surge-badge" hidden>
+                    <span class="surge-badge-icon" aria-hidden="true"></span>
+                    <span class="surge-badge-name"></span>
+                    <b class="surge-badge-turns"></b>
+                </div>
+                <!-- Ultimato (GAME_RULES §6.23): Duelo marcado / em andamento (público, os dois veem; tempo-hud.js) -->
+                <div id="duel-badge" class="status-badge duel-badge" hidden>
+                    <span class="duel-badge-icon" aria-hidden="true">⚔</span>
+                    <span class="duel-badge-text"><b class="duel-badge-name"></b><small class="duel-badge-rules"></small></span>
+                    <b class="duel-badge-when"></b>
+                </div>
+            </div>
             <button id="discard-confirm-btn" class="menu-btn primary" hidden data-i18n="DISCARD_CONFIRM">CONFIRMAR DESCARTE</button>
 
             <!-- Evento da Arena (surge-hud.js): vinheta do Frenesi, bordas do Cromático, selo do evento ativo e a roleta do sorteio -->
@@ -396,11 +412,6 @@
             <div id="surge-chromatic" class="surge-chromatic" aria-hidden="true"></div>
             <!-- Ampulheta (GAME_RULES §6.22): véu âmbar estático enquanto a mesa está congelada (tempo-hud.js) -->
             <div id="time-frozen" class="time-frozen" aria-hidden="true"></div>
-            <!-- Ultimato (GAME_RULES §6.23): selo do Duelo marcado / em andamento (público, os dois veem) -->
-            <div id="duel-badge" class="duel-badge" hidden>
-                <span class="duel-badge-icon" aria-hidden="true">⚔</span>
-                <span class="duel-badge-text"><b class="duel-badge-name"></b><small class="duel-badge-rules"></small></span>
-            </div>
             <!-- Ultimato: palco das cinemáticas de DOM (o lacre do desafio e as lâminas da abertura); escondido fora delas -->
             <div id="duel-stage" class="duel-stage" aria-hidden="true" hidden>
                 <div class="duel-blade duel-blade--left"><svg viewBox="0 0 240 40" preserveAspectRatio="none"><defs><linearGradient id="duel-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9c0d2"/><stop offset=".55" stop-color="#6d7488"/><stop offset="1" stop-color="#272b3a"/></linearGradient><linearGradient id="duel-hilt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".5" stop-color="#e0a93e"/><stop offset="1" stop-color="#7a4f12"/></linearGradient></defs><path d="M48 15 L222 16.5 Q238 20 222 23.5 L48 25 Z" fill="url(#duel-steel)"/><path d="M50 17.5 L224 19" stroke="#fff" stroke-width="1.2" opacity=".8"/><rect x="40" y="4" width="8" height="32" rx="3" fill="url(#duel-hilt)"/><rect x="10" y="14" width="30" height="12" rx="2" fill="#3a0b0b"/><circle cx="8" cy="20" r="7" fill="url(#duel-hilt)"/></svg></div>
@@ -418,11 +429,6 @@
                     <div class="duel-tribute-timer"><span></span></div>
                 </div>
             </div>
-            <div id="surge-badge" class="surge-badge" role="button" tabindex="0" hidden>
-                <span class="surge-badge-icon" aria-hidden="true"></span>
-                <span class="surge-badge-name"></span>
-                <b class="surge-badge-turns"></b>
-            </div>
             <div id="surge-reveal" class="surge-reveal" aria-live="polite" hidden>
                 <div class="surge-card">
                     <span class="surge-title" data-i18n="SURGE_TITLE">EVENTO DA ARENA</span>
@@ -431,20 +437,20 @@
                     <span class="surge-turns"></span>
                 </div>
             </div>
-            <!-- Efeito da rodada (surge-info.js): clicar no selo abre a explicação, no mesmo estilo do "Ver descrição" -->
-            <div id="surge-info" class="card-info surge-info" hidden>
+            <!-- O que um selo da coluna de status faz (status-info.js): clicar no selo abre, no estilo do "Ver descrição" -->
+            <div id="status-info" class="card-info status-info" hidden>
                 <div class="card-info-backdrop"></div>
-                <div class="card-info-panel card-info-float" role="dialog" aria-modal="true" aria-labelledby="surge-info-name">
-                    <div class="surge-info-tile" aria-hidden="true">
-                        <span class="surge-info-icon"></span>
+                <div class="card-info-panel card-info-float" role="dialog" aria-modal="true" aria-labelledby="status-info-name">
+                    <div class="status-info-tile" aria-hidden="true">
+                        <span class="status-info-icon"></span>
                     </div>
                     <div class="card-info-text">
                         <div class="card-info-tags">
-                            <span class="card-info-category" data-i18n="SURGE_TITLE">EVENTO DA ARENA</span>
-                            <span class="surge-info-turns"></span>
+                            <span class="card-info-category"></span>
+                            <span class="status-info-tag"></span>
                         </div>
-                        <h3 id="surge-info-name" class="card-info-name"></h3>
-                        <p class="card-info-desc surge-info-desc"></p>
+                        <h3 id="status-info-name" class="card-info-name"></h3>
+                        <p class="card-info-desc status-info-desc"></p>
                     </div>
                     <button class="card-info-close" type="button" aria-label="Fechar" data-i18n="CLOSE" data-i18n-attr="aria-label">&times;</button>
                 </div>
