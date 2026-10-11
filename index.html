@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-B2XfKCZy.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BN_GyJj4.css">
+  <script type="module" crossorigin src="./assets/index-IMFj0MqQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DtSCzibv.css">
 </head>
-<body>
+<body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
          gradientes dentro de um SVG com display:none não renderizam em alguns navegadores. -->
     <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
@@ -34,6 +34,12 @@
         <symbol id="ico-blood" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#blood-grad)" stroke="#4a000b" stroke-width="1.1"/>
             <path d="M6.2 8.2a2.6 2.6 0 0 1 2.4-2.3" fill="none" stroke="#fff" stroke-opacity="0.75" stroke-width="1.4" stroke-linecap="round"/>
+        </symbol>
+        <!-- Agente do Espião (chapéu e óculos): o mesmo desenho do selo da vida -->
+        <symbol id="ico-spy" viewBox="0 0 24 24">
+            <path d="M7.2 11.6 8.1 6.4c.2-1 1.1-1.6 2.1-1.4l.7.2c.7.2 1.5.2 2.2 0l.7-.2c1-.2 1.9.4 2.1 1.4l.9 5.2z"/>
+            <path d="M2 13.2c0-1.2 4.5-2.2 10-2.2s10 1 10 2.2-4.5 2-10 2-10-.8-10-2z"/>
+            <path d="M7.6 17.1c.9-.6 2.1-.8 3-.5l-.4 1.1c-.8-.1-1.6.1-2.2.5zM16.4 17.1c-.9-.6-2.1-.8-3-.5l.4 1.1c.8-.1 1.6.1 2.2.5z"/>
         </symbol>
         <symbol id="ico-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2.5 3.5h2.6l2.3 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 7.5H6.1"/>
@@ -368,6 +374,8 @@
                                 <span data-i18n="SHOP_TITLE">LOJA</span>
                             </h2>
                             <span class="shop-blood-banner" data-i18n="SHOP_BLOOD_BANNER">SÓ ACEITA VIDA</span>
+                            <!-- Infestação de Espiões: as compras podem vir infiltradas pelo oponente -->
+                            <span class="shop-spy-banner"><svg aria-hidden="true"><use href="#ico-spy"/></svg><span class="shop-spy-text" data-i18n="SHOP_SPY_BANNER">ESPIÕES À SOLTA</span></span>
                             <div class="shop-wallet"><svg class="ico-coin"><use href="#ico-coin"/></svg><b class="shop-coins">0</b></div>
                             <button class="shop-close" type="button" aria-label="Fechar loja" data-i18n="SHOP_CLOSE" data-i18n-attr="aria-label">
                                 <svg><use href="#ico-close"/></svg>
