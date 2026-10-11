@@ -531,9 +531,15 @@
     </div>
 
     <script>
-        // Overlay de erros para depuração rápida (textContent evita injeção de HTML vindo de mensagens de rede)
+        // Overlay de erros para depuração rápida (textContent evita injeção de HTML vindo de mensagens de rede).
+        // Só aparece em desenvolvimento: no localhost ou com ?debug na URL (dá pra ligar no celular). Jogador nunca vê
+        // erro cru na tela.
         (function () {
+            var host = location.hostname;
+            var overlayOn = /(^|[?&])debug(=|&|$)/.test(location.search)
+                || host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
             function showOverlay(text, position, background) {
+                if (!overlayOn) return;
                 var el = document.createElement('div');
                 el.style.cssText = 'position:fixed;left:0;' + position + ':0;background:' + background +
                     ';color:#000;z-index:9999;padding:10px;max-width:100vw;font:12px monospace;white-space:pre-wrap;';
@@ -544,18 +550,33 @@
                 showOverlay('ERROR: ' + msg + ' @ ' + url + ':' + lineNo + ':' + columnNo, 'top', '#ff6b6b');
                 return false;
             };
-            // Queda de par WebRTC (ex.: oponente recarregou a página) é esperada e já tratada pela reconexão
-            var BENIGN_ERRORS = /User-Initiated Abort|Close called/;
+            // Erros de rede (brokers MQTT da sinalização recusando/caindo, WebSocket, WebRTC, Trystero) são esperados:
+            // basta um broker/caminho funcionar, e quedas de par já são tratadas pela reconexão. Vão só pro console,
+            // como aviso, nunca pra tela
+            var NETWORK_ERRORS = new RegExp([
+                'User-Initiated Abort', 'Close called', 'Connection refused', 'Server unavailable', 'Not authorized',
+                'mqtt', 'WebSocket', 'ECONNREFUSED', 'ETIMEDOUT', 'connack', 'Keepalive timeout',
+                'RTCPeerConnection', 'RTCDataChannel', 'ICE candidate', 'ICE failed', 'iceConnection', 'OperationError',
+                'could not connect to peer',
+                'handshake timed out', 'Trystero', 'Failed to fetch', 'NetworkError', 'Load failed'
+            ].join('|'), 'i');
             var originalError = console.error;
+            var originalWarn = console.warn;
             console.error = function () {
-                originalError.apply(console, arguments);
+                // `text` vai pra tela; `probe` também leva o nome do erro e a pilha (de onde ele veio: ex.: mqtt.esm.js)
                 var parts = [];
+                var probe = [];
                 for (var i = 0; i < arguments.length; i++) {
                     var a = arguments[i];
                     parts.push(a instanceof Error ? a.message : String(a));
+                    probe.push(a instanceof Error ? a.name + ' ' + a.message + ' ' + (a.stack || '') : String(a));
                 }
                 var text = parts.join(' ');
-                if (BENIGN_ERRORS.test(text)) return;
+                if (NETWORK_ERRORS.test(probe.join(' '))) {
+                    originalWarn.apply(console, ['[Rede]'].concat(Array.prototype.slice.call(arguments)));
+                    return;
+                }
+                originalError.apply(console, arguments);
                 showOverlay('CONSOLE.ERROR: ' + text, 'bottom', 'orange');
             };
         })();
