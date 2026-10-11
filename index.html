@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-IMFj0MqQ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DtSCzibv.css">
+  <script type="module" crossorigin src="./assets/index-DDUqU66X.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CfANicI3.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -427,6 +427,19 @@
                 <div class="duel-seal"><svg viewBox="0 0 100 100"><defs><radialGradient id="duel-wax" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#ff7464"/><stop offset=".45" stop-color="#c41f1f"/><stop offset="1" stop-color="#4d0608"/></radialGradient></defs><path d="M50 4 C62 4 66 9 74 11 C84 14 92 22 94 34 C97 44 92 50 95 60 C97 72 88 84 76 90 C66 95 60 92 50 96 C38 99 30 93 22 88 C11 81 5 70 6 58 C7 48 3 42 6 32 C10 19 22 10 34 7 C41 5 44 4 50 4 Z" fill="url(#duel-wax)"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,190,170,.55)" stroke-width="2.5"/><g stroke="rgba(255,228,210,.92)" stroke-linecap="round"><path d="M33 67 L64 36" stroke-width="4.5"/><path d="M67 67 L36 36" stroke-width="4.5"/><path d="M58 33 L69 44" stroke-width="5"/><path d="M42 33 L31 44" stroke-width="5"/></g><g fill="rgba(255,228,210,.92)"><circle cx="30" cy="70" r="4.5"/><circle cx="70" cy="70" r="4.5"/></g><ellipse cx="36" cy="30" rx="10" ry="5" fill="rgba(255,255,255,.3)" transform="rotate(-35 36 30)"/></svg></div>
                 <div class="duel-flash"></div>
                 <div class="duel-title"><b class="duel-title-main"></b><small class="duel-title-rules"></small></div>
+            </div>
+            <!-- Caixa de Pandora: a caixa abrindo no centro (pandora-stage.js), igual pra todos; escondido fora dela -->
+            <div id="pandora-stage" class="pandora-stage" aria-hidden="true" hidden>
+                <div class="pandora-veil"></div>
+                <div class="pandora-rays"><canvas></canvas></div>
+                <div class="pandora-glow"></div>
+                <div class="pandora-box">
+                    <div class="pandora-shake">
+                        <canvas class="pandora-base"></canvas>
+                        <div class="pandora-lid-wrap"><canvas class="pandora-lid"></canvas></div>
+                    </div>
+                </div>
+                <div class="pandora-flash"></div>
             </div>
             <!-- Ultimato: tributo — o vencedor do Duelo escolhe uma carta da mão do perdedor (duel-tribute.js) -->
             <div id="duel-tribute" class="duel-tribute" role="dialog" aria-modal="true" hidden>
