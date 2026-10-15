@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-Chrltgir.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-YxBGtDpz.css">
+  <script type="module" crossorigin src="./assets/index-CnlSVI-Z.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CyCzi_la.css">
 </head>
-<body>
+<body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
          gradientes dentro de um SVG com display:none não renderizam em alguns navegadores. -->
     <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
@@ -478,6 +478,20 @@
             </div>
             <div id="damage-vignette"></div>
             <div id="damage-text-container"></div>
+            <!-- Golpes pesados (src/ui/impact-layer.js): faixas de cinema, aviso do nível e a tela rachando; escondida fora deles -->
+            <div id="impact-layer" class="impact-layer" aria-hidden="true" hidden>
+                <div class="impact-bar impact-bar--top"></div>
+                <div class="impact-bar impact-bar--bottom"></div>
+                <div class="impact-crack">
+                    <svg viewBox="0 0 1000 500" preserveAspectRatio="none">
+                        <defs><path id="impact-crack-path" d="M500 500 L470 420 L490 360 L440 280 L455 210 L400 120 L410 40 M500 500 L560 430 L545 370 L620 300 L610 240 L700 160 L720 90 M500 500 L420 470 L340 455 L280 400 L190 390 L120 330 L30 320 M500 500 L590 480 L680 470 L740 420 L840 410 L920 350 L995 340 M500 500 L505 410 L540 330 L520 250 L560 170 L555 100 M440 280 L380 260 L340 200 M620 300 L690 310 L760 260 M280 400 L250 340 L200 300 M740 420 L770 360 L830 330 M455 210 L500 180 M545 370 L600 360 M340 455 L300 500 M680 470 L700 500"/></defs>
+                        <use href="#impact-crack-path" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+                        <use href="#impact-crack-path" fill="none" stroke="rgba(255,90,110,.55)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                        <use href="#impact-crack-path" fill="none" stroke="rgba(255,245,245,.95)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="impact-label"><span></span></div>
+            </div>
 
             <div id="color-alert"></div>
             <div id="corner-notification-container"></div>
@@ -507,26 +521,68 @@
                 <button id="connection-menu-btn" class="banner-btn" hidden data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
             </div>
 
-            <div id="victory-screen" class="game-over-screen" hidden>
-                <h1 data-i18n="VICTORY">VITÓRIA!</h1>
-                <p id="victory-reason" class="game-over-reason"></p>
-                <button class="menu-btn primary rematch-btn" data-i18n="REMATCH">REVANCHE</button>
-                <button class="menu-btn secondary back-to-menu" data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
+            <!--
+              Tela de fim de partida (src/ui/game-over-screen.js): cobre a mesa (que para de ser desenhada), com o resultado,
+              o placar da série da sala, o Resumo da partida e o diário da Caixa de Pandora, e a revanche.
+            -->
+            <div id="game-over" class="go" role="dialog" aria-modal="true" aria-labelledby="go-title" hidden>
+                <svg class="go-sprite" aria-hidden="true" focusable="false">
+                    <symbol id="pfx-1" viewBox="0 0 24 24"><path d="M3 12c3 4 15 4 18 0"/><path d="M6 15l-1.5 2M12 16v2.5M18 15l1.5 2"/><path d="M15 3.5h4l-4 4h4"/></symbol>
+                    <symbol id="pfx-2" viewBox="0 0 24 24"><circle cx="14" cy="12" r="6"/><path d="M14 8.6v6.8M12.2 10.2h2.9a1.4 1.4 0 0 1 0 2.8h-2.2"/><path d="M2.5 9h4M1.5 12h4M2.5 15h4"/></symbol>
+                    <symbol id="pfx-3" viewBox="0 0 24 24"><path d="M6 21v-9a6 6 0 0 1 12 0v9l-2-1.6-2 1.6-2-1.6-2 1.6-2-1.6z"/><circle cx="10" cy="11" r="1"/><circle cx="14" cy="11" r="1"/></symbol>
+                    <symbol id="pfx-4" viewBox="0 0 24 24"><path d="M4 6c5-2 11-2 16 0 0 8-3 13-8 14C7 19 4 14 4 6z"/><path d="M7.8 10.5c1-.8 2.2-.8 3.2 0M13 10.5c1-.8 2.2-.8 3.2 0M9 15c2 1.5 4 1.5 6 0"/></symbol>
+                    <symbol id="pfx-5" viewBox="0 0 24 24"><path d="M2 13h5l2-5 3 10 3-8 2 3h5"/></symbol>
+                    <symbol id="pfx-6" viewBox="0 0 24 24"><path d="M3 8c3-2 6 2 9 0s6 2 9 0M3 13c3-2 6 2 9 0s6 2 9 0M3 18c3-2 6 2 9 0s6 2 9 0"/></symbol>
+                    <symbol id="pfx-7" viewBox="0 0 24 24"><path d="M12 7v12"/><path d="M12 9C9 3 3 4 4 9c.6 3 4 4 8 3M12 9c3-6 9-5 8 0-.6 3-4 4-8 3M12 13c-3 0-6 2-5 5 1 2 4 1 5-2M12 13c3 0 6 2 5 5-1 2-4 1-5-2"/></symbol>
+                    <symbol id="pfx-8" viewBox="0 0 24 24"><path d="M4 9h14l-3.5-3.5M20 15H6l3.5 3.5"/></symbol>
+                    <symbol id="pfx-9" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5V14"/><path d="M12 17.2v.1"/></symbol>
+                    <symbol id="pfx-10" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M12 9v5M9.5 11.5h5"/></symbol>
+                    <symbol id="pfx-11" viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 20L20 4"/></symbol>
+                    <symbol id="pfx-12" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="10" rx="1.5"/><rect x="14" y="11" width="7" height="10" rx="1.5"/><path d="M12.5 6h6.5l-2-2M11.5 18H5l2 2"/></symbol>
+                </svg>
+                <div class="go-bg" aria-hidden="true"></div>
+                <div class="go-rays-cage" aria-hidden="true"><div class="go-rays"></div></div>
+                <div class="go-sparks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="go-shell">
+                    <header class="go-hero">
+                        <span class="go-kicker"></span>
+                        <h1 id="go-title" class="go-title"></h1>
+                        <p class="go-reason"></p>
+                    </header>
+                    <section class="go-series">
+                        <div class="go-player go-player--self"><span class="go-name"></span><b class="go-wins">0</b></div>
+                        <div class="go-series-mid">
+                            <span class="go-series-label" data-i18n="GO_SERIES_LABEL">PLACAR</span>
+                            <div class="go-pips"></div>
+                            <span class="go-series-note"></span>
+                        </div>
+                        <div class="go-player go-player--opp"><b class="go-wins">0</b><span class="go-name"></span></div>
+                    </section>
+                    <div class="go-main">
+                        <nav class="go-tabs" role="tablist">
+                            <button type="button" class="go-tab is-active" role="tab" data-tab="stats" aria-selected="true" data-i18n="GO_TAB_STATS">RESUMO</button>
+                            <button type="button" class="go-tab" role="tab" data-tab="pandora" aria-selected="false"><span data-i18n="GO_TAB_PANDORA">CAIXA DE PANDORA</span><b class="go-tab-badge" hidden></b></button>
+                        </nav>
+                        <div class="go-body">
+                            <section class="go-pane go-pane--stats" data-pane="stats" role="tabpanel">
+                                <p class="go-highlight"></p>
+                                <ul class="go-stats"></ul>
+                            </section>
+                            <section class="go-pane go-pane--pandora" data-pane="pandora" role="tabpanel" hidden>
+                                <p class="go-pandora-head"></p>
+                                <ol class="go-pandora"></ol>
+                            </section>
+                        </div>
+                    </div>
+                    <footer class="go-actions">
+                        <p class="go-rematch-status" hidden></p>
+                        <div class="go-buttons">
+                            <button type="button" class="menu-btn primary go-rematch" data-i18n="REMATCH">REVANCHE</button>
+                            <button type="button" class="menu-btn secondary back-to-menu" data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
+                        </div>
+                    </footer>
+                </div>
             </div>
-            <div id="defeat-screen" class="game-over-screen" hidden>
-                <h1 data-i18n="DEFEAT">DERROTA!</h1>
-                <p id="defeat-reason" class="game-over-reason"></p>
-                <button class="menu-btn primary rematch-btn" data-i18n="REMATCH">REVANCHE</button>
-                <button class="menu-btn secondary back-to-menu" data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
-            </div>
-            <div id="spectator-screen" class="game-over-screen" hidden>
-                <h1 id="spectator-winner-title">PLAYER VENCEU!</h1>
-                <p id="spectator-reason" class="game-over-reason"></p>
-                <button id="wait-rematch-btn" class="menu-btn primary" data-i18n="WAIT_REMATCH">AGUARDAR REVANCHE</button>
-                <button class="menu-btn secondary back-to-menu" data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
-            </div>
-
-            <div id="rematch-notice" class="rematch-notice" hidden></div>
         </div>
     </div>
 
