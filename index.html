@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-CnlSVI-Z.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CyCzi_la.css">
+  <script type="module" crossorigin src="./assets/index-B8vq-SHZ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BrwWXiE-.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -116,6 +116,11 @@
                 <span id="volume-sfx-value" class="settings-value">100%</span>
             </div>
 
+            <!-- Lista de Cartas: tela cheia com todas as cartas do jogo (card-codex.js), no menu e na partida -->
+            <button id="codex-btn" class="settings-fullscreen settings-codex" type="button">
+                <svg class="codex-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="9" height="13.5" rx="1.8" transform="rotate(-9 7.5 12.25)"/><rect x="11.5" y="4" width="9" height="13.5" rx="1.8" transform="rotate(7 16 10.75)"/></svg>
+                <span data-i18n="CODEX_TITLE">LISTA DE CARTAS</span>
+            </button>
             <div class="settings-actions">
                 <!-- Músicas: abre o cartão de músicas (music-panel.js) com a música tema e a da loja -->
                 <button id="music-library-btn" class="settings-fullscreen" type="button">
@@ -168,6 +173,97 @@
         </div>
     </div>
 
+    <!-- Lista de Cartas (src/ui/card-codex.js, styles/card-codex.css): todas as cartas, montadas do CONFIG -->
+    <div id="codex" class="mscreen codex" role="dialog" aria-modal="true" aria-labelledby="codex-title" hidden>
+        <div class="mscreen-bg"></div>
+        <div class="mscreen-shell codex-shell">
+            <header class="mscreen-head">
+                <div class="mscreen-heading">
+                    <h2 id="codex-title" class="mscreen-title" data-i18n="CODEX_TITLE">LISTA DE CARTAS</h2>
+                    <p class="mscreen-sub codex-sub"></p>
+                </div>
+                <button class="mscreen-close" type="button" data-i18n="CLOSE" data-i18n-attr="aria-label" aria-label="Fechar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-close"/></svg>
+                </button>
+            </header>
+            <div class="codex-list">
+                <nav class="codex-filters" role="tablist"></nav>
+                <div class="codex-scroll"></div>
+            </div>
+            <section class="codex-detail" hidden>
+                <div class="codex-stage">
+                    <button class="codex-nav codex-nav--prev" type="button" data-i18n="CODEX_PREV" data-i18n-attr="aria-label" aria-label="Anterior">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                    </button>
+                    <div class="codex-card-col">
+                        <div class="codex-card-box"><canvas class="codex-card" aria-hidden="true"></canvas></div>
+                        <div class="codex-swatches" hidden></div>
+                    </div>
+                    <button class="codex-nav codex-nav--next" type="button" data-i18n="CODEX_NEXT" data-i18n-attr="aria-label" aria-label="Próxima">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div class="codex-info">
+                    <span class="codex-cat"></span>
+                    <h3 class="codex-name"></h3>
+                    <div class="codex-badges">
+                        <span class="codex-rarity">
+                            <span class="codex-rarity-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                            <span class="codex-rarity-label"></span>
+                        </span>
+                        <span class="codex-foil" data-i18n="CARD_INFO_FOIL">Laminada</span>
+                    </div>
+                    <p class="codex-desc"></p>
+                    <dl class="codex-facts">
+                        <div class="codex-fact" data-fact="price">
+                            <dt data-i18n="CODEX_PRICE">Na loja</dt>
+                            <dd><svg class="ico-coin" aria-hidden="true"><use href="#ico-coin"/></svg><span class="codex-fact-value"></span></dd>
+                        </div>
+                        <div class="codex-fact" data-fact="sell">
+                            <dt data-i18n="CODEX_SELL">Venda</dt>
+                            <dd><svg class="ico-coin" aria-hidden="true"><use href="#ico-coin"/></svg><span class="codex-fact-value"></span></dd>
+                        </div>
+                        <div class="codex-fact" data-fact="deck">
+                            <dt data-i18n="CODEX_DECK">No baralho</dt>
+                            <dd><span class="codex-fact-value"></span></dd>
+                        </div>
+                    </dl>
+                    <div class="codex-foot">
+                        <button class="codex-back-list" type="button">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6v6H4zM14 5h6v6h-6zM4 15h6v4H4zM14 15h6v4h-6z"/></svg>
+                            <span data-i18n="CODEX_BACK_TO_LIST">VER TODAS</span>
+                        </button>
+                        <span class="codex-pos"></span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Como Jogar (src/ui/how-to-play.js): capítulos em HOW_TO_PLAY_CHAPTERS; vazio = aviso "em breve" -->
+    <div id="how-to-play" class="mscreen htp" role="dialog" aria-modal="true" aria-labelledby="htp-title" hidden>
+        <div class="mscreen-bg"></div>
+        <div class="mscreen-shell htp-shell">
+            <header class="mscreen-head">
+                <div class="mscreen-heading">
+                    <h2 id="htp-title" class="mscreen-title" data-i18n="HOW_TO_PLAY">COMO JOGAR</h2>
+                </div>
+                <button class="mscreen-close" type="button" data-i18n="CLOSE" data-i18n-attr="aria-label" aria-label="Fechar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-close"/></svg>
+                </button>
+            </header>
+            <div class="htp-main">
+                <nav class="htp-nav" hidden></nav>
+                <div class="htp-body" hidden></div>
+                <div class="htp-soon">
+                    <svg class="htp-soon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5A1.5 1.5 0 0 0 4 21z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5A1.5 1.5 0 0 1 20 21z"/></svg>
+                    <p class="htp-soon-title" data-i18n="HOW_TO_PLAY_SOON_TITLE">EM BREVE</p>
+                    <p class="htp-soon-text" data-i18n="HOW_TO_PLAY_SOON">Um guia passo a passo está chegando.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Menu Principal -->
     <div id="main-menu">
         <div class="menu-bg">
@@ -180,6 +276,11 @@
             <div class="menu-buttons">
                 <button id="btn-play-cpu" class="menu-btn primary" data-i18n="PVE">PLAYER VS CPU</button>
                 <button id="btn-create-room" class="menu-btn secondary" data-i18n="CREATE_ROOM">CRIAR SALA</button>
+                <!-- Como Jogar (how-to-play.js): só no menu -->
+                <button id="btn-how-to-play" class="menu-btn tertiary" type="button">
+                    <svg class="menu-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5A1.5 1.5 0 0 0 4 21z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5A1.5 1.5 0 0 1 20 21z"/></svg>
+                    <span data-i18n="HOW_TO_PLAY">COMO JOGAR</span>
+                </button>
             </div>
         </div>
     </div>
@@ -366,7 +467,7 @@
                     <div class="shop-panel" role="dialog" aria-modal="true" aria-labelledby="shop-title">
                         <div class="shop-bg">
                             <canvas class="shop-rays" aria-hidden="true"></canvas>
-                            <div class="shop-motes" aria-hidden="true"></div>
+                            <canvas class="shop-motes" aria-hidden="true"></canvas>
                         </div>
                         <header class="shop-header">
                             <h2 id="shop-title" class="shop-title">
