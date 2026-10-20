@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-BaiiqBJV.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BrwWXiE-.css">
+  <script type="module" crossorigin src="./assets/index-BcpTaVDe.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CqGbV-s0.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -136,6 +136,11 @@
                     <span id="fullscreen-label" data-i18n="FULLSCREEN_ENTER">TELA CHEIA</span>
                 </button>
             </div>
+            <!-- Link de espectador: só aparece pro host de uma sala online (settings-panel.attachWatchLink) -->
+            <button id="watch-link-btn" class="settings-fullscreen" type="button" hidden>
+                <svg class="watch-link-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3.2"/></svg>
+                <span id="watch-link-label" data-i18n="COPY_WATCH_LINK">COPIAR LINK DE ESPECTADOR</span>
+            </button>
 
             <button id="settings-close" class="menu-btn secondary" data-i18n="CLOSE">FECHAR</button>
         </div>
@@ -323,6 +328,9 @@
                 <p class="room-label" data-i18n="ROOM_CODE">Código da Sala:</p>
                 <h1 id="room-code-display" class="room-code">---</h1>
                 <button id="btn-copy-link" class="menu-btn primary room-copy-btn" data-i18n="COPY_LINK">COPIAR LINK</button>
+                <!-- Link de espectador: o de jogador + uma chave secreta (?watch=). Só ele deixa alguém assistir -->
+                <button id="btn-copy-watch-link" class="menu-btn secondary room-copy-watch-btn" data-i18n="COPY_WATCH_LINK">COPIAR LINK DE ESPECTADOR</button>
+                <p class="room-watch-note" data-i18n="WATCH_LINK_NOTE">O link de espectador mostra as duas mãos: só mande pra quem vai assistir.</p>
                 <p id="room-warning" class="room-warning" hidden data-i18n="LOCALHOST_WARNING">
                     Você abriu o jogo por localhost: esse link só funciona nesta máquina.
                     Abra o jogo pela URL pública do túnel (ex.: localtunnel) antes de criar a sala.
