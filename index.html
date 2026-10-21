@@ -6,8 +6,8 @@
     <title>Yugi-Uno!</title>
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-gvh7wRs_.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BwmVcQgA.css">
+  <script type="module" crossorigin src="./assets/index-D7KmFs2H.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CEQt6Z8g.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -557,6 +557,18 @@
                     <p class="duel-tribute-sub"></p>
                     <div class="duel-tribute-cards"></div>
                     <div class="duel-tribute-timer"><span></span></div>
+                </div>
+            </div>
+            <!-- "Um evento se aproxima" (surge-hud.js): faixa de uma vez no início da rodada em que um evento foi sorteado -->
+            <div id="surge-warn" class="surge-warn" aria-live="polite" hidden>
+                <div class="surge-warn-band">
+                    <span class="surge-warn-mark" aria-hidden="true">?</span>
+                    <div class="surge-warn-text">
+                        <span class="surge-warn-kicker" data-i18n="SURGE_TITLE">EVENTO DA ARENA</span>
+                        <strong class="surge-warn-title"></strong>
+                        <span class="surge-warn-sub"></span>
+                    </div>
+                    <span class="surge-warn-mark" aria-hidden="true">?</span>
                 </div>
             </div>
             <div id="surge-reveal" class="surge-reveal" aria-live="polite" hidden>
