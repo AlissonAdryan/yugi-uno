@@ -15,10 +15,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-D3qbJVwG.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BKHg7m8o.css">
+  <script type="module" crossorigin src="./assets/index-DY7QAP4G.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Bgae2KZm.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -87,11 +87,36 @@
         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
         <span id="spectator-count-text">0</span>
     </div>
-    <button id="settings-btn" class="settings-btn" aria-label="Configurações">
+    <button id="settings-btn" class="settings-btn" data-i18n="PAUSE_TITLE" data-i18n-attr="aria-label" aria-label="Menu">
         <img src="data:image/png;base64,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" alt="">
     </button>
     <div id="settings-panel" class="settings-panel" hidden>
-        <div class="settings-content">
+        <!-- Menu de pausa (pause-menu.js): o que a engrenagem abre. Não pausa a partida; leva às Configurações e à Lista de Cartas -->
+        <div id="pause-content" class="settings-content pause-content" role="dialog" aria-labelledby="pause-title">
+            <h2 id="pause-title" class="settings-title" data-i18n="PAUSE_TITLE">MENU</h2>
+            <p id="pause-hint" class="pause-hint" data-i18n="PAUSE_HINT" hidden></p>
+            <div class="pause-list">
+                <button id="pause-resume" class="pause-btn pause-btn--primary" type="button">
+                    <svg class="pause-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="pause-ico-fill pause-ico-play" d="M8 5.2v13.6L19 12z"/><path class="pause-ico-back" d="M19.5 12H5M11 6l-6 6 6 6"/></svg>
+                    <span id="pause-resume-label" data-i18n="PAUSE_RESUME">CONTINUAR</span>
+                </button>
+                <button id="pause-settings" class="pause-btn" type="button">
+                    <svg class="pause-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M21.2 12h-2.6M5.4 12H2.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8M18.5 18.5l-1.8-1.8M7.3 7.3L5.5 5.5"/><circle cx="12" cy="12" r="6.6"/></svg>
+                    <span data-i18n="SETTINGS">CONFIGURAÇÕES</span>
+                </button>
+                <button id="pause-codex" class="pause-btn" type="button">
+                    <svg class="pause-btn-icon pause-btn-icon--cards" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="9" height="13.5" rx="1.8" transform="rotate(-9 7.5 12.25)"/><rect x="11.5" y="4" width="9" height="13.5" rx="1.8" transform="rotate(7 16 10.75)"/></svg>
+                    <span data-i18n="CODEX_TITLE">LISTA DE CARTAS</span>
+                </button>
+                <!-- Só durante a partida; o 1º toque pede confirmação (pause-menu.js) -->
+                <button id="pause-leave" class="pause-btn pause-btn--danger" type="button" hidden>
+                    <svg class="pause-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4.5H6.5a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5H14"/><path d="M10.5 12h10M17 8.5l3.5 3.5-3.5 3.5"/></svg>
+                    <span id="pause-leave-label" data-i18n="PAUSE_LEAVE">SAIR DA PARTIDA</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="settings-content" class="settings-content" hidden>
             <h2 class="settings-title" data-i18n="SETTINGS">CONFIGURAÇÕES</h2>
 
             <div class="settings-row" style="margin-bottom: 42px;">
@@ -127,11 +152,6 @@
                 <span id="volume-sfx-value" class="settings-value">100%</span>
             </div>
 
-            <!-- Lista de Cartas: tela cheia com todas as cartas do jogo (card-codex.js), no menu e na partida -->
-            <button id="codex-btn" class="settings-fullscreen settings-codex" type="button">
-                <svg class="codex-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="9" height="13.5" rx="1.8" transform="rotate(-9 7.5 12.25)"/><rect x="11.5" y="4" width="9" height="13.5" rx="1.8" transform="rotate(7 16 10.75)"/></svg>
-                <span data-i18n="CODEX_TITLE">LISTA DE CARTAS</span>
-            </button>
             <div class="settings-actions">
                 <!-- Músicas: abre o cartão de músicas (music-panel.js) com a música tema e a da loja -->
                 <button id="music-library-btn" class="settings-fullscreen" type="button">
@@ -153,7 +173,8 @@
                 <span id="watch-link-label" data-i18n="COPY_WATCH_LINK">COPIAR LINK DE ESPECTADOR</span>
             </button>
 
-            <button id="settings-close" class="menu-btn secondary" data-i18n="CLOSE">FECHAR</button>
+            <!-- Volta pro menu de pausa (o id fica: o menu de debug escuta este botão) -->
+            <button id="settings-close" class="menu-btn secondary" type="button" data-i18n="BACK">VOLTAR</button>
         </div>
 
         <!-- Músicas do jogador: substituem a música tema e a da loja e ficam salvas no navegador (custom-music.js) -->
