@@ -1,0 +1,28 @@
+{
+    "id": "./",
+    "name": "Yugi-Uno!",
+    "short_name": "Yugi-Uno",
+    "description": "Duelo de cartas com loja, cartas especiais e eventos da arena. Jogue contra a CPU ou contra um amigo.",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "start_url": "./",
+    "scope": "./",
+    "display": "fullscreen",
+    "display_override": ["fullscreen", "standalone", "minimal-ui"],
+    "orientation": "landscape",
+    "background_color": "#12052b",
+    "theme_color": "#290f61",
+    "categories": ["games", "entertainment"],
+    "prefer_related_applications": false,
+    "icons": [
+        { "src": "assets/icons/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "assets/icons/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+        { "src": "assets/icons/app/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "assets/icons/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    ],
+    "screenshots": [
+        { "src": "assets/icons/app/screenshot-menu-wide.jpg", "sizes": "1280x720", "type": "image/jpeg", "form_factor": "wide", "label": "Menu principal" },
+        { "src": "assets/icons/app/screenshot-game-wide.jpg", "sizes": "1280x720", "type": "image/jpeg", "form_factor": "wide", "label": "Partida contra a CPU" },
+        { "src": "assets/icons/app/screenshot-game-narrow.jpg", "sizes": "1600x740", "type": "image/jpeg", "form_factor": "narrow", "label": "Partida no celular" }
+    ]
+}

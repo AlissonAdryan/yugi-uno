@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Yugi-Uno!</title>
-    <link rel="icon" href="data:,">
+    <meta name="description" content="Duelo de cartas com loja, cartas especiais e eventos da arena. Jogue contra a CPU ou contra um amigo.">
+    <!-- App instalável (PWA): manifesto, ícones e cores da janela do app (src/pwa/, public/sw.js) -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/icons/app/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="assets/icons/app/favicon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="assets/icons/app/apple-touch-icon.png">
+    <meta name="theme-color" content="#290f61">
+    <meta name="application-name" content="Yugi-Uno">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-D7KmFs2H.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CEQt6Z8g.css">
+  <script type="module" crossorigin src="./assets/index-CHzCypqn.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DtuNEt6n.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -276,6 +287,17 @@
             <div class="plasma-blob plasma-blob--dark"></div>
             <div class="plasma-blob plasma-blob--accent"></div>
         </div>
+        <!-- App instalável (src/pwa/): instalar o jogo e o aviso de versão nova, no canto (a engrenagem fica no outro) -->
+        <div class="menu-corner">
+            <button id="btn-install" class="menu-pill" type="button" hidden>
+                <svg class="menu-pill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 17v2.5c0 .8.7 1.5 1.5 1.5h13c.8 0 1.5-.7 1.5-1.5V17"/></svg>
+                <span data-i18n="INSTALL_APP">INSTALAR</span>
+            </button>
+            <button id="app-update" class="menu-pill menu-pill--update" type="button" hidden>
+                <svg class="menu-pill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
+                <span data-i18n="UPDATE_NOW">NOVA VERSÃO: ATUALIZAR</span>
+            </button>
+        </div>
         <div class="menu-content">
             <h1 class="game-title" data-text="YUGI-UNO!">YUGI-UNO!</h1>
             <div class="menu-buttons">
@@ -287,6 +309,17 @@
                     <span data-i18n="HOW_TO_PLAY">COMO JOGAR</span>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Instalar o jogo onde o navegador não tem botão próprio (install-prompt.js): Safari e Firefox no Android -->
+    <div id="install-modal" class="room-modal install-modal" hidden>
+        <div class="room-card install-card" role="dialog" aria-modal="true" aria-labelledby="install-title">
+            <img class="install-icon" src="assets/icons/app/icon-192.png" alt="" width="88" height="88">
+            <h2 id="install-title" class="room-title" data-i18n="INSTALL_TITLE">INSTALAR O JOGO</h2>
+            <p class="install-intro" data-i18n="INSTALL_INTRO"></p>
+            <p class="install-help"></p>
+            <button id="install-close" class="menu-btn secondary" type="button" data-i18n="CLOSE">FECHAR</button>
         </div>
     </div>
 
