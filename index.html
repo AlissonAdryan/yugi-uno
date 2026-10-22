@@ -15,10 +15,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-Bg2iHMMU.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-pyq9fEJF.css">
+  <script type="module" crossorigin src="./assets/index-ClT0FPM7.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-bwMeuUBV.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -73,6 +74,17 @@
         </symbol>
         <symbol id="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
             <path d="M6 6l12 12M18 6L6 18"/>
+        </symbol>
+        <!-- Loja Compartilhada: duas vitrines que se cruzam (a parte do meio é dos dois) -->
+        <symbol id="ico-shared" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8.6" cy="12" r="6"/>
+            <circle cx="15.4" cy="12" r="6"/>
+            <path d="M12 7.4v9.2"/>
+        </symbol>
+        <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="10.5" width="14" height="10" rx="2.2"/>
+            <path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9"/>
+            <path d="M12 14.6v2.2"/>
         </symbol>
     </svg>
 
@@ -561,6 +573,17 @@
                                 <svg><use href="#ico-close"/></svg>
                             </button>
                         </header>
+                        <!-- Abas: a loja de cada um e a Loja Compartilhada (os mesmos itens pros dois; src/ui/shop-shared.js) -->
+                        <div class="shop-tabs" role="tablist">
+                            <span class="shop-tabs-thumb" aria-hidden="true"></span>
+                            <button class="shop-tab shop-tab--own" type="button" role="tab" aria-selected="true">
+                                <svg aria-hidden="true"><use href="#ico-cart"/></svg><span data-i18n="SHOP_TAB_OWN">MINHA LOJA</span>
+                            </button>
+                            <button class="shop-tab shop-tab--shared" type="button" role="tab" aria-selected="false">
+                                <svg aria-hidden="true"><use href="#ico-shared"/></svg><span data-i18n="SHARED_TAB">COMPARTILHADA</span>
+                                <b class="shop-tab-badge" hidden></b>
+                            </button>
+                        </div>
                         <div class="shop-items"></div>
                         <footer class="shop-footer">
                             <div class="shop-refresh"><svg><use href="#ico-clock"/></svg><span class="shop-refresh-text"></span></div>
@@ -570,8 +593,14 @@
                                 <span data-i18n="SHOP_REROLL">RENOVAR</span>
                                 <span class="shop-reroll-cost"><svg class="ico-coin"><use href="#ico-coin"/></svg><b>1</b></span>
                             </button>
+                            <!-- Loja Compartilhada: no lugar do Renovar, a regra da vitrine -->
+                            <span class="shop-share-rule"><svg aria-hidden="true"><use href="#ico-shared"/></svg><span class="shop-share-rule-text"></span></span>
                         </footer>
-                        <p class="shop-hint" data-i18n="SHOP_HINT"></p>
+                        <!-- As duas dicas ocupam o mesmo lugar (a maior define a altura): trocar de aba não mexe no tamanho da janela -->
+                        <div class="shop-hints">
+                            <p class="shop-hint shop-hint--own" data-i18n="SHOP_HINT"></p>
+                            <p class="shop-hint shop-hint--shared"></p>
+                        </div>
                     </div>
                 </div>
             </div>
