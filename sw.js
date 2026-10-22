@@ -16,8 +16,8 @@
  * muda a cada versão publicada e é isso que faz o navegador instalar o service worker novo (e o jogo avisar
  * "nova versão disponível"). Fora do build (servidor de desenvolvimento) fica 'dev' com a lista vazia.
  */
-const BUILD = 'ee10cf9bb4f1';
-const PRECACHE = ["./index.html","./assets/index-Bgae2KZm.css","./assets/index-DY7QAP4G.js"];
+const BUILD = 'b79b35e346fd';
+const PRECACHE = ["./index.html","./assets/index-Bg2iHMMU.js","./assets/index-pyq9fEJF.css"];
 
 const SHELL_PREFIX = 'yugi-shell-';
 const SHELL = `${SHELL_PREFIX}${BUILD}`;

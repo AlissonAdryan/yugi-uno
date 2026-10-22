@@ -15,10 +15,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-DY7QAP4G.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Bgae2KZm.css">
+  <script type="module" crossorigin src="./assets/index-Bg2iHMMU.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-pyq9fEJF.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -107,6 +107,10 @@
                 <button id="pause-codex" class="pause-btn" type="button">
                     <svg class="pause-btn-icon pause-btn-icon--cards" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="9" height="13.5" rx="1.8" transform="rotate(-9 7.5 12.25)"/><rect x="11.5" y="4" width="9" height="13.5" rx="1.8" transform="rotate(7 16 10.75)"/></svg>
                     <span data-i18n="CODEX_TITLE">LISTA DE CARTAS</span>
+                </button>
+                <button id="pause-how-to-play" class="pause-btn" type="button">
+                    <svg class="pause-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5A1.5 1.5 0 0 0 4 21z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5A1.5 1.5 0 0 1 20 21z"/></svg>
+                    <span data-i18n="HOW_TO_PLAY">COMO JOGAR</span>
                 </button>
                 <!-- Só durante a partida; o 1º toque pede confirmação (pause-menu.js) -->
                 <button id="pause-leave" class="pause-btn pause-btn--danger" type="button" hidden>
@@ -277,7 +281,7 @@
         </div>
     </div>
 
-    <!-- Como Jogar (src/ui/how-to-play.js): capítulos em HOW_TO_PLAY_CHAPTERS; vazio = aviso "em breve" -->
+    <!-- Como Jogar (src/ui/how-to-play.js, styles/how-to-play.css): páginas em src/ui/how-to-play/pages/ (demonstração animada + texto); sem páginas = aviso "em breve" -->
     <div id="how-to-play" class="mscreen htp" role="dialog" aria-modal="true" aria-labelledby="htp-title" hidden>
         <div class="mscreen-bg"></div>
         <div class="mscreen-shell htp-shell">
@@ -291,8 +295,21 @@
             </header>
             <div class="htp-main">
                 <nav class="htp-nav" hidden></nav>
-                <div class="htp-body" hidden></div>
-                <div class="htp-soon">
+                <section class="htp-body" hidden>
+                    <article class="htp-page"></article>
+                    <footer class="htp-pager">
+                        <button class="htp-pager-btn htp-prev" type="button">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                            <span data-i18n="HTP_PREV">ANTERIOR</span>
+                        </button>
+                        <div class="htp-dots"></div>
+                        <button class="htp-pager-btn htp-next" type="button">
+                            <span class="htp-next-label" data-i18n="HTP_NEXT">PRÓXIMA</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </footer>
+                </section>
+                <div class="htp-soon" hidden>
                     <svg class="htp-soon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5A1.5 1.5 0 0 0 4 21z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5A1.5 1.5 0 0 1 20 21z"/></svg>
                     <p class="htp-soon-title" data-i18n="HOW_TO_PLAY_SOON_TITLE">EM BREVE</p>
                     <p class="htp-soon-text" data-i18n="HOW_TO_PLAY_SOON">Um guia passo a passo está chegando.</p>
