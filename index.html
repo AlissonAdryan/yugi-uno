@@ -16,10 +16,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
+    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-Cy5Gln2P.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BqScIUmz.css">
+  <script type="module" crossorigin src="./assets/index-CjY3cF5V.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-b-pnCgKt.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -370,6 +370,19 @@
             <p class="install-intro" data-i18n="INSTALL_INTRO"></p>
             <p class="install-help"></p>
             <button id="install-close" class="menu-btn secondary" type="button" data-i18n="CLOSE">FECHAR</button>
+        </div>
+    </div>
+
+    <!-- Convite aberto com o app já em uso (pwa/launch-invites.js + ui/invite-prompt.js): pergunta antes de sair -->
+    <div id="invite-modal" class="room-modal invite-modal" hidden>
+        <div class="room-card invite-card" role="alertdialog" aria-modal="true" aria-labelledby="invite-title" aria-describedby="invite-body">
+            <svg class="invite-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h15A1.5 1.5 0 0 1 21 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 16.5z"/><path d="m3.6 6.8 8.4 6.4 8.4-6.4"/></svg>
+            <h2 id="invite-title" class="room-title" data-i18n="INVITE_TITLE">CONVITE RECEBIDO</h2>
+            <p id="invite-body" class="invite-body"></p>
+            <p id="invite-code" class="room-code invite-code"></p>
+            <p id="invite-warning" class="invite-warning" hidden></p>
+            <button id="invite-accept" class="menu-btn primary invite-accept" type="button"></button>
+            <button id="invite-stay" class="menu-btn secondary invite-stay" type="button" data-i18n="INVITE_STAY">CONTINUAR AQUI</button>
         </div>
     </div>
 
