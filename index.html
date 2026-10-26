@@ -18,8 +18,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-CjY3cF5V.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-b-pnCgKt.css">
+  <script type="module" crossorigin src="./assets/index-DoB-X5-8.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BjOSQ--2.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -490,6 +490,8 @@
                     <span class="hp-gold-sheen"></span>
                     <span class="hp-divine-beam"></span>
                 </div>
+                <!-- Loja trancada pela Prisão de Cristal (a do oponente pros jogadores; as duas pro espectador) -->
+                <span class="hp-shoplock-badge" aria-hidden="true"><svg class="hp-shoplock-cart"><use href="#ico-cart"/></svg><svg class="hp-shoplock-lock"><use href="#ico-lock"/></svg><b></b></span>
                 <span class="hp-revive-badge" aria-hidden="true"></span>
                 <span id="opp-spectator-coins" class="spectator-coins" hidden><svg class="ico-coin"><use href="#ico-coin"/></svg><b>0</b></span>
                 <!-- Lixeira do oponente (só mostra as cartas dele sendo vendidas: verso, sem valor) -->
@@ -512,6 +514,8 @@
                 <span id="self-name" class="player-name" data-i18n="YOU">VOCÊ</span>
                 <span id="self-hp" class="hp-value">30</span>
                 <span class="hp-death" aria-hidden="true"><b class="hp-death-turns"></b></span>
+                <!-- Loja trancada pela Prisão de Cristal (a do oponente pros jogadores; as duas pro espectador) -->
+                <span class="hp-shoplock-badge" aria-hidden="true"><svg class="hp-shoplock-cart"><use href="#ico-cart"/></svg><svg class="hp-shoplock-lock"><use href="#ico-lock"/></svg><b></b></span>
                 <!-- Espião do oponente esperando a sua compra (só espectadores veem) -->
                 <span class="hp-spy-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.2 11.6 8.1 6.4c.2-1 1.1-1.6 2.1-1.4l.7.2c.7.2 1.5.2 2.2 0l.7-.2c1-.2 1.9.4 2.1 1.4l.9 5.2z"/><path d="M2 13.2c0-1.2 4.5-2.2 10-2.2s10 1 10 2.2-4.5 2-10 2-10-.8-10-2z"/><path d="M7.6 17.1c.9-.6 2.1-.8 3-.5l-.4 1.1c-.8-.1-1.6.1-2.2.5zM16.4 17.1c-.9-.6-2.1-.8-3-.5l.4 1.1c.8-.1 1.6.1 2.2.5z"/></svg></span>
                 <div class="hp-fx hp-fx--front" aria-hidden="true">
@@ -561,6 +565,8 @@
             <button id="shop-btn" class="shop-btn" type="button" aria-label="Abrir loja" data-i18n="SHOP_OPEN" data-i18n-attr="aria-label">
                 <svg class="shop-btn-icon"><use href="#ico-cart"/></svg>
                 <span class="shop-btn-dot"></span>
+                <!-- Loja trancada pela Prisão de Cristal: cadeado de cristal + preparações que faltam -->
+                <span class="shop-btn-lock" aria-hidden="true"><svg><use href="#ico-lock"/></svg><b></b></span>
                 <span class="wallet"><svg class="ico-coin"><use href="#ico-coin"/></svg><b id="wallet-coins">0</b></span>
             </button>
 
