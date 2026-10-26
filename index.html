@@ -16,10 +16,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
+    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-DoB-X5-8.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BjOSQ--2.css">
+  <script type="module" crossorigin src="./assets/index-DBfI6h3d.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-F63ad71H.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -463,6 +463,15 @@
                 <div class="plasma-blob plasma-blob--dark"></div>
                 <div class="plasma-blob plasma-blob--accent"></div>
             </div>
+            <!-- Vinte-e-Um da Caixa de Pandora (ui/blackjack-hud.js): a mesa de feltro, estática, entra por opacidade -->
+            <div class="bj-felt" aria-hidden="true">
+                <div class="bj-felt-rim"></div>
+                <div class="bj-felt-center">
+                    <span class="bj-felt-title" data-i18n="BJ_FELT_TITLE">VINTE-E-UM</span>
+                    <span class="bj-felt-rule" data-i18n="BJ_FELT_RULE">O PERDEDOR DE CADA MÃO LEVA {bjDamage} ♥</span>
+                    <span class="bj-felt-left"></span>
+                </div>
+            </div>
         </div>
         <canvas id="game-canvas"></canvas>
 
@@ -625,6 +634,14 @@
             </div>
 
             <button id="end-turn-btn" hidden disabled data-i18n="END_TURN">FINALIZAR TURNO</button>
+            <!-- Vinte-e-Um (ui/blackjack-hud.js): puxar carta, os totais presos às mãos e o aviso grande do centro -->
+            <button id="bj-hit-btn" class="bj-hit-btn" type="button" hidden disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="11" height="15" rx="2"/><path d="M12 21v-6M9 18h6"/></svg>
+                <span data-i18n="BJ_HIT">PUXAR CARTA</span>
+            </button>
+            <div id="bj-self-total" class="bj-total bj-total--self" hidden><b></b><small></small></div>
+            <div id="bj-opp-total" class="bj-total bj-total--opp" hidden><b></b><small></small></div>
+            <div id="bj-banner" class="bj-banner" hidden><b></b><small></small></div>
             <!-- Coluna de status (abaixo do botão de finalizar): selos clicáveis do que vale na partida. Um selo novo =
                  um filho .status-badge aqui + bindStatusBadge/StatusInfoPanel (src/ui/status-info.js) -->
             <div id="status-rail" class="status-rail">
