@@ -16,10 +16,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
+    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-CIA-E5HF.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B__bwymA.css">
+  <script type="module" crossorigin src="./assets/index-u-uxomNN.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CVQ3q0Dp.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -373,6 +373,9 @@
         </div>
     </div>
 
+    <!-- Roda das mensagens rápidas (ui/quick-chat-wheel.js monta o conteúdo): por cima da mesa e da tela final -->
+    <div id="qchat" class="qchat" hidden></div>
+
     <!-- Convite aberto com o app já em uso (pwa/launch-invites.js + ui/invite-prompt.js): pergunta antes de sair -->
     <div id="invite-modal" class="room-modal invite-modal" hidden>
         <div class="room-card invite-card" role="alertdialog" aria-modal="true" aria-labelledby="invite-title" aria-describedby="invite-body">
@@ -522,6 +525,8 @@
                 <span class="hp-halo" aria-hidden="true"></span>
                 <span id="self-name" class="player-name" data-i18n="YOU">VOCÊ</span>
                 <span id="self-hp" class="hp-value">30</span>
+                <!-- Mensagens rápidas (client/quick-chat-controller.js): abre a roda; só quem joga vê -->
+                <button id="qchat-btn" class="qchat-btn" type="button" aria-label="Mensagens rápidas" data-i18n="QC_OPEN" data-i18n-attr="aria-label" hidden><svg class="qchat-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 4h15A2.5 2.5 0 0 1 22 6.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-4.6 3.6c-.6.5-1.4 0-1.4-.7V18h-.5A2.5 2.5 0 0 1 2 15.5v-9A2.5 2.5 0 0 1 4.5 4z"/><circle class="qchat-ico-dot" cx="7.5" cy="11" r="1.4"/><circle class="qchat-ico-dot" cx="12" cy="11" r="1.4"/><circle class="qchat-ico-dot" cx="16.5" cy="11" r="1.4"/></svg><span class="qchat-cd" aria-hidden="true"></span></button>
                 <span class="hp-death" aria-hidden="true"><b class="hp-death-turns"></b></span>
                 <!-- Loja trancada pela Prisão de Cristal (a do oponente pros jogadores; as duas pro espectador) -->
                 <span class="hp-shoplock-badge" aria-hidden="true"><svg class="hp-shoplock-cart"><use href="#ico-cart"/></svg><svg class="hp-shoplock-lock"><use href="#ico-lock"/></svg><b></b></span>
@@ -778,6 +783,22 @@
                 <button id="connection-menu-btn" class="banner-btn" hidden data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
             </div>
 
+            <!-- PERFECT! (render/cinematics-perfect.js): vitória sem perder vida, antes da tela final. Escondido fora dela -->
+            <div id="perfect-stage" class="pf" aria-hidden="true" hidden>
+                <div class="pf-tint"></div>
+                <div class="pf-rays-cage"><div class="pf-rays"></div></div>
+                <div class="pf-vignette"></div>
+                <div class="pf-bar pf-bar--top"></div>
+                <div class="pf-bar pf-bar--bottom"></div>
+                <div class="pf-center">
+                    <div class="pf-glow"></div>
+                    <div class="pf-word"></div>
+                    <svg class="pf-crack" viewBox="0 0 600 120" preserveAspectRatio="none"><path d="M0 64 L70 58 L96 74 L150 52 L188 70 L236 44 L262 66 L318 50 L352 78 L398 46 L436 70 L486 54 L520 72 L600 60"/><path d="M236 44 L228 18 M352 78 L362 104 M436 70 L452 96 M150 52 L140 28"/></svg>
+                    <p class="pf-sub"></p>
+                </div>
+                <div class="pf-flash"></div>
+            </div>
+
             <!--
               Tela de fim de partida (src/ui/game-over-screen.js): cobre a mesa (que para de ser desenhada), com o resultado,
               o placar da série da sala, o Resumo da partida e o diário da Caixa de Pandora, e a revanche.
@@ -836,6 +857,7 @@
                         <div class="go-buttons">
                             <button type="button" class="menu-btn primary go-rematch" data-i18n="REMATCH">REVANCHE</button>
                             <button type="button" class="menu-btn secondary back-to-menu" data-i18n="BACK_TO_MENU">VOLTAR AO MENU</button>
+                            <button type="button" class="qchat-btn go-chat" aria-label="Mensagens rápidas" data-i18n="QC_OPEN" data-i18n-attr="aria-label" hidden><svg class="qchat-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 4h15A2.5 2.5 0 0 1 22 6.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-4.6 3.6c-.6.5-1.4 0-1.4-.7V18h-.5A2.5 2.5 0 0 1 2 15.5v-9A2.5 2.5 0 0 1 4.5 4z"/><circle class="qchat-ico-dot" cx="7.5" cy="11" r="1.4"/><circle class="qchat-ico-dot" cx="12" cy="11" r="1.4"/><circle class="qchat-ico-dot" cx="16.5" cy="11" r="1.4"/></svg><span class="qchat-cd" aria-hidden="true"></span></button>
                         </div>
                     </footer>
                 </div>
