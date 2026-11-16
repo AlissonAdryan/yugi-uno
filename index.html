@@ -16,10 +16,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Yugi-Uno">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
+    <!-- CSS em styles/ por tipo (base, hud, menu, shop, ui, effects, screens): a ordem destes links É a cascata -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="./assets/index-BUPIEycs.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-1JOTjjEx.css">
+  <script type="module" crossorigin src="./assets/index-WGEPiuqM.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D_55sUhf.css">
 </head>
 <body>
     <!-- Sprite de ícones vetoriais (moeda, carrinho, gelo...). Tamanho 0 em vez de display:none:
@@ -670,6 +670,12 @@
                     <span class="duel-badge-text"><b class="duel-badge-name"></b><small class="duel-badge-rules"></small></span>
                     <b class="duel-badge-when"></b>
                 </div>
+                <!-- Vidente (GAME_RULES §6.27): o nível da vidência e os turnos que faltam (só quem usou e o espectador; seer-hud.js) -->
+                <div id="seer-badge" class="status-badge seer-badge" hidden>
+                    <span class="seer-badge-icon" aria-hidden="true">◉</span>
+                    <b class="seer-badge-name"></b>
+                    <b class="seer-badge-turns"></b>
+                </div>
             </div>
             <button id="discard-confirm-btn" class="menu-btn primary" hidden data-i18n="DISCARD_CONFIRM">CONFIRMAR DESCARTE</button>
 
@@ -678,6 +684,8 @@
             <div id="surge-chromatic" class="surge-chromatic" aria-hidden="true"></div>
             <!-- Ampulheta (GAME_RULES §6.22): véu âmbar estático enquanto a mesa está congelada (tempo-hud.js) -->
             <div id="time-frozen" class="time-frozen" aria-hidden="true"></div>
+            <!-- Vidente: o véu da vidência, uma camada estática por nível + o clarão do nível novo (seer-hud.js) -->
+            <div id="seer-veil" class="seer-veil" aria-hidden="true"><i class="seer-l1"></i><i class="seer-l2"></i><i class="seer-l3"></i><i class="seer-flash"></i></div>
             <!-- Ultimato: palco das cinemáticas de DOM (o lacre do desafio e as lâminas da abertura); escondido fora delas -->
             <div id="duel-stage" class="duel-stage" aria-hidden="true" hidden>
                 <div class="duel-blade duel-blade--left"><svg viewBox="0 0 240 40" preserveAspectRatio="none"><defs><linearGradient id="duel-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9c0d2"/><stop offset=".55" stop-color="#6d7488"/><stop offset="1" stop-color="#272b3a"/></linearGradient><linearGradient id="duel-hilt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".5" stop-color="#e0a93e"/><stop offset="1" stop-color="#7a4f12"/></linearGradient></defs><path d="M48 15 L222 16.5 Q238 20 222 23.5 L48 25 Z" fill="url(#duel-steel)"/><path d="M50 17.5 L224 19" stroke="#fff" stroke-width="1.2" opacity=".8"/><rect x="40" y="4" width="8" height="32" rx="3" fill="url(#duel-hilt)"/><rect x="10" y="14" width="30" height="12" rx="2" fill="#3a0b0b"/><circle cx="8" cy="20" r="7" fill="url(#duel-hilt)"/></svg></div>
